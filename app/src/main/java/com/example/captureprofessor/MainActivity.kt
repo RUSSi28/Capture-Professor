@@ -22,7 +22,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    //基本MainActivityはTest以外触らないようにしてね
+                    Test()
                 }
             }
         }
@@ -30,17 +31,15 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun Test(modifier: Modifier = Modifier) {
+    //実機またはエミュでテストするときはここに自身で作成した関数をおいてください
+    //pushするときはaddの対象から外すかここから消しておいて
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     CaptureProfessorTheme {
-        Greeting("Android")
+        Test()
     }
 }
