@@ -4,5 +4,5 @@ import androidx.activity.ComponentActivity
 
 class KakomonActivity: ComponentActivity() {
 
-    //まずボタン➡開く　を作ってみる
+    //まずは遷移先の画面を作ってみる
 }
