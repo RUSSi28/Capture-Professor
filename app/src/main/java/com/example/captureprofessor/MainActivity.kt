@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.captureprofessor.ui.theme.CaptureProfessorTheme
-
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,24 +21,25 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    //基本MainActivityはTest以外触らないようにしてね
-                    Test()
+                    Greeting("Android")
                 }
             }
         }
     }
-}
 
-@Composable
-fun Test(modifier: Modifier = Modifier) {
-    //実機またはエミュでテストするときはここに自身で作成した関数をおいてください
-    //pushするときはaddの対象から外すかここから消しておいて
-}
+    @Composable
+    fun Greeting(name: String, modifier: Modifier = Modifier) {
+        Text(
+            text = "Hello $name!",
+            modifier = modifier
+        )
+    }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CaptureProfessorTheme {
-        Test()
+    @Preview(showBackground = true)
+    @Composable
+    fun GreetingPreview() {
+        CaptureProfessorTheme {
+            Greeting("Android")
+        }
     }
 }
