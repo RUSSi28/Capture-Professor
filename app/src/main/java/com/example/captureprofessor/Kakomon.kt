@@ -1,10 +1,12 @@
 package com.example.captureprofessor
 
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -30,16 +32,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-
+//Bar("情報理論","南角先生","過去問そのままだが量がエグイ\n中間の復習は必ずやろう\n",R.drawable.information_theory)
+//テンプレが合った方が書くべき情報が分かりやすいし、見る側にとっても役に立つかも
 @Composable
 @Preview
-fun Bar(){
-    var checked by remember { mutableStateOf(true) }
-
-
+fun Bar(className:String,teacherName : String,comment: String,imageId:Int){
+Surface {
+    var isExpanded by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .background(Color.White)
@@ -48,47 +53,55 @@ fun Bar(){
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {//ボタンをおきたい
         Button(
-            onClick = { /* Do something */ },
+            onClick = { isExpanded = !isExpanded },
             modifier = Modifier
                 .fillMaxWidth(),
             shape = RoundedCornerShape(0)
 
         ) {
-            Text("情報数学Ⅰ")
-        }
-
-//        Switch(
-//            checked = checked,
-//            onCheckedChange = { checked = it },
-//            modifier = Modifier.padding(10.dp)
-//        )
-
-        var isExpanded by remember { mutableStateOf(false) }
-
-        // We toggle the isExpanded variable when we click on this Column
-        Column(modifier = Modifier.clickable { isExpanded = !isExpanded },
-            horizontalAlignment = Alignment.CenterHorizontally,) {
-            Text(
-                text = "デジタル回路",
-                color = Color.Blue
-            )
-
-            Spacer(modifier = Modifier.height(4.dp))
-
-            Surface(
-                shape = MaterialTheme.shapes.medium,
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(
-                    text = "一年前期\n" +
-                            "あああああああああああああ\n" +
-                            "いいいいいいい\n" +
-                            "っていいい",
-                    modifier = Modifier.padding(all = 4.dp),
-                    // If the message is expanded, we display all its content
-                    // otherwise we only display the first line
-                    maxLines = if (isExpanded) Int.MAX_VALUE else 1
-                )
+                Row {
+                    Text(
+                        text = className,
+                        color = Color.White
+                    )
+                    Text(
+                        text = "($teacherName)",
+                        color = Color.White
+                    )
+                }
+
+
+                Spacer(modifier = Modifier.height(4.dp))
+
+                Surface(
+                    shape = MaterialTheme.shapes.medium,
+                ) {
+
+
+                }
             }
         }
+        if(isExpanded){
+            Text(
+                text = comment,
+                modifier = Modifier.padding(all = 4.dp),
+            )
+
+            Image(
+                painter = painterResource(id = imageId),
+                contentDescription = "情報理論",
+                contentScale = ContentScale.Fit,
+//                modifier = imageModifier
+            )
+        }
+
+
+        // We toggle the isExpanded variable when we click on this Column
+
     }
+}
+
 }
