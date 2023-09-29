@@ -17,6 +17,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconToggleButton
@@ -25,14 +28,17 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.FirstBaseline
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -48,8 +54,8 @@ Surface {
     Column(
         modifier = Modifier
             .background(Color.White)
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+            .fillMaxWidth(),
+//            .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {//ボタンをおきたい
         Button(
@@ -63,6 +69,11 @@ Surface {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Row {
+
+                    Icon(
+                        imageVector = if (isExpanded) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowRight,
+                        contentDescription = null,
+                    )
                     Text(
                         text = className,
                         color = Color.White
@@ -79,8 +90,6 @@ Surface {
                 Surface(
                     shape = MaterialTheme.shapes.medium,
                 ) {
-
-
                 }
             }
         }
@@ -99,9 +108,25 @@ Surface {
         }
 
 
+
         // We toggle the isExpanded variable when we click on this Column
 
     }
+
+
 }
 
+
+}
+
+@Composable
+fun testReid(){
+    Column(
+            modifier = Modifier.fillMaxWidth()
+        .verticalScroll(rememberScrollState()),
+//    horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Bar("情報理論", "南角先生", "過去問そのままだが量がエグイ\n中間の復習は必ずやろう\n", R.drawable.information_theory)
+        Bar("情報理論", "南角先生", "過去問そのままだが量がエグイ\n中間の復習は必ずやろう\n", R.drawable.information_theory)
+    }
 }
