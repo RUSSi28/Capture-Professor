@@ -3,12 +3,18 @@ package com.example.captureprofessor
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.captureprofessor.ui.theme.CaptureProfessorTheme
 
@@ -18,12 +24,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             CaptureProfessorTheme {
                 // A surface container using the 'background' color from the theme
-                Surface(
+                Scaffold(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
+                    topBar = { MyTopAppBar() }
+                ) {paddingValues ->
                     //基本MainActivityはTest以外触らないようにしてね
-                    Test()
+                    Column (modifier = Modifier.padding(paddingValues)){
+
+                    }
                 }
             }
         }
@@ -34,6 +42,16 @@ class MainActivity : ComponentActivity() {
 fun Test(modifier: Modifier = Modifier) = //実機またはエミュでテストするときはここに自身で作成した関数をおいてください
     //pushするときはaddの対象から外すかここから消しておいて
     ReviewActivity()
+
+@Composable
+fun MyTopAppBar(modifier: Modifier = Modifier) {
+    TopAppBar (
+        modifier = modifier,
+        title = { Text(text = "Test") },
+        backgroundColor = Color(255,255,255),
+    )
+
+}
 
 @Preview(showBackground = true)
 @Composable
