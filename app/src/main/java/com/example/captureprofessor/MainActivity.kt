@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Test(modifier: Modifier = Modifier) = //実機またはエミュでテストするときはここに自身で作成した関数をおいてください
     //pushするときはaddの対象から外すかここから消しておいて
-    ReviewCard()
+    ReviewActivity()
 
 @Preview(showBackground = true)
 @Composable
