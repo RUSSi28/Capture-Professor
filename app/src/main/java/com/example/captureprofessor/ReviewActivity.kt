@@ -11,10 +11,9 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material.Button
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -40,7 +40,7 @@ val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
 @Composable
 fun ReviewActivity() {
-    val TAG = "ReviewCard"
+    val TAG = "ReviewActivity"
 
     // Reviewを大量に宣言（ChatGPT最強！！ChatGPT最強！！）
     val initialReviews = mutableListOf(
@@ -115,6 +115,7 @@ fun ReviewActivity() {
             comment = "内容は難しかったが、問題解決スキルが向上しました。"
         )
     )
+
     // こう書くとreviewsが変更されたときに勝手に再描画してくれるらしいよ！
     var reviews by remember {
         mutableStateOf(initialReviews)
@@ -123,26 +124,21 @@ fun ReviewActivity() {
         mutableStateOf(0)
     }
 
-    // リスト内のデータを出力
-    for (review in reviews) {
-        Log.i(
-            TAG,
-            "Graduation Year: ${review.enrollmentYear}, Interest Level: ${review.interestLevel}, Difficulty Level: ${review.difficultyLevel}, Comment: ${review.comment}"
-        )
-    }
-
     Column {
-        // タイトルを表示
-        Text(
-            text = "データ構造とアルゴリズム",
-            modifier = Modifier.padding(16.dp)
-        )
-        Text(
-            text = "並び替え",
-            modifier = Modifier.padding(16.dp)
-        )
+        Row {
 
-        Column {
+
+            // タイトルを表示
+            Text(
+                text = "データ構造とアルゴリズム",
+                modifier = Modifier.padding(16.dp)
+            )
+            Text(
+                text = "並び替え",
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+        Row {
             Button(
                 onClick = {
                     test++
@@ -180,19 +176,65 @@ fun ReviewActivity() {
                 Text(text = "難しさ順")
             }
         }
+        displayReviews(reviews = reviews)
+    }
+}
 
-        // ColumnじゃなくてLazyColumにすると勝手にスクロール出来るようにしてくれるらしい！便利！
-        LazyColumn {
-            // reviewsの要素をすべて描画する
-            items(reviews) { review ->
+// 渡されたすべてのレビューを表示
+@Composable
+fun displayReviews(reviews: MutableList<Review>){
+    // ColumnじゃなくてLazyColumにすると勝手にスクロール出来るようにしてくれるらしい！便利！
+    LazyColumn {
+        // reviewsの要素をすべて描画する
+        items(reviews) { review ->
 //            Spacer(modifier = Modifier.width(16.dp))
-                displayReview(review = review)
+            displayReview(review = review)
 //            Spacer(modifier = Modifier.height(8.dp))
-            }
         }
     }
 }
 
+// 渡されたReviewを表示する
+@Composable
+fun displayReview(review: Review) {
+
+    Surface(
+        modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+//                .padding(16.dp)
+        ) {
+            Row {
+                Text(text = "${review.enrollmentYear}年度受講")
+                Text(
+                    text = dateFormat.format(review.date),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentWidth(Alignment.End) // 日付を右寄せにする
+                )
+            }
+            Surface(
+//                color = MaterialTheme.colorScheme.primary, // テーマのプライマリカラーを使用
+                color = Color.LightGray,
+                shape = RoundedCornerShape(8.dp),
+//                modifier = Modifier.border(1.dp, Color.Black) // 枠線の太さと色を設定
+            ) {
+                // 面白さ、難しさ、コメントのグループ
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    Text(text = "面白さ：${review.interestLevel}　難しさ：${review.difficultyLevel}")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(text = review.comment)
+                }
+            }
+        }
+    }
+}
 
 // enrollmentYearが遅い順にソート
 fun sortReviewByYear(initialReviews: MutableList<Review>): MutableList<Review> {
@@ -213,55 +255,4 @@ fun sortReviewByDifficulty(initialReviews: MutableList<Review>): MutableList<Rev
     val sortedReviews = initialReviews.sortedByDescending { it.difficultyLevel }
     val reviews = sortedReviews.toMutableList()
     return reviews
-}
-
-fun addReview(reviews: MutableList<Review>) {
-    reviews.add(
-        Review(
-            enrollmentYear = 4000,
-            date = dateFormat.parse("2023-01-15"),
-            interestLevel = 4,
-            difficultyLevel = 3,
-            comment = "非常に面白い講義で、アルゴリズムとデータ構造について深く学ぶことができました。"
-        )
-    )
-}
-
-// 渡されたReviewを表示する
-@Composable
-fun displayReview(review: Review) {
-    Surface(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-//                .padding(16.dp)
-        ) {
-            Row {
-                Text(text = "${review.enrollmentYear}年度受講")
-                Text(
-                    text = dateFormat.format(review.date),
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentWidth(Alignment.End) // 日付を右寄せにする
-                )
-            }
-            Surface(
-                color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(8.dp),
-            ) {
-                // 面白さ、難しさ、コメントのグループ
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp)
-                ) {
-                    Text(text = "面白さ：${review.interestLevel}　難しさ：${review.difficultyLevel}")
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(text = review.comment)
-                }
-            }
-        }
-    }
 }

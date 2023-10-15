@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
                 ) {paddingValues ->
                     //基本MainActivityはTest以外触らないようにしてね
                     Column (modifier = Modifier.padding(paddingValues)){
-
+                        Test()
                     }
                 }
             }
