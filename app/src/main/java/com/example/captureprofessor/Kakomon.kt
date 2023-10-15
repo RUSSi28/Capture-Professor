@@ -46,8 +46,9 @@ import androidx.compose.ui.unit.dp
 
 //Bar("情報理論","南角先生","過去問そのままだが量がエグイ\n中間の復習は必ずやろう\n",R.drawable.information_theory)
 //テンプレが合った方が書くべき情報が分かりやすいし、見る側にとっても役に立つかも
+//とりあえず見た目作ったのでただの関数になっているが、クラスに直そう(それとも構造体？)
+
 @Composable
-@Preview
 fun Bar(className:String,teacherName : String,comment: String,imageId:Int){
 Surface {
     var isExpanded by remember { mutableStateOf(false) }
@@ -128,5 +129,6 @@ fun testReid(){
     ) {
         Bar("情報理論", "南角先生", "過去問そのままだが量がエグイ\n中間の復習は必ずやろう\n", R.drawable.information_theory)
         Bar("情報理論", "南角先生", "過去問そのままだが量がエグイ\n中間の復習は必ずやろう\n", R.drawable.information_theory)
+
     }
 }
