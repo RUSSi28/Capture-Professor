@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.captureprofessor.ui.theme.CaptureProfessorTheme
+import com.example.captureprofessor.ui.themeimport.testReid
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,6 +43,7 @@ class MainActivity : ComponentActivity() {
 fun Test(modifier: Modifier = Modifier) {
     //実機またはエミュでテストするときはここに自身で作成した関数をおいてください
     //pushするときはaddの対象から外すかここから消しておいて
+    testReid()
 }
 
 @Composable
