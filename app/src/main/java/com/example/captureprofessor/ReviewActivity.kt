@@ -1,6 +1,6 @@
 package com.example.captureprofessor
 
-import android.util.Log
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -11,9 +11,14 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +31,8 @@ import androidx.compose.ui.unit.dp
 import java.text.SimpleDateFormat
 import java.util.Date
 
+private const val TAG = "ReviewActivity"
+
 // レビューを格納するデータクラス
 data class Review(
     val enrollmentYear: Int, // 受講年度
@@ -36,145 +43,116 @@ data class Review(
 )
 
 // SimpleDateFormatを設定しておくよ！
-val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
+
+// Reviewを大量に宣言（ChatGPT最強！！ChatGPT最強！！）
+private val initialReviews = mutableListOf(
+    Review(
+        enrollmentYear = 2023,
+        date = dateFormat.parse("2023-01-15"),
+        interestLevel = 4,
+        difficultyLevel = 3,
+        comment = "非常に面白い講義で、アルゴリズムとデータ構造について深く学ぶことができました。"
+    ),
+    Review(
+        enrollmentYear = 2022,
+        date = dateFormat.parse("2022-04-20"),
+        interestLevel = 3,
+        difficultyLevel = 2,
+        comment = "内容が濃い講義で、アルゴリズムの実装に挑戦しました。大変有益な経験でした。"
+    ),
+    Review(
+        enrollmentYear = 2021,
+        date = dateFormat.parse("2021-09-05"),
+        interestLevel = 5,
+        difficultyLevel = 1,
+        comment = "この講義は私のプログラミングスキルを飛躍的に向上させました。情熱的に学べました。"
+    ),
+    Review(
+        enrollmentYear = 2020,
+        date = dateFormat.parse("2020-11-30"),
+        interestLevel = 3,
+        difficultyLevel = 3,
+        comment = "授業内容は充実しており、アルゴリズムの理解が進みました。"
+    ),
+    Review(
+        enrollmentYear = 2019,
+        date = dateFormat.parse("2019-06-15"),
+        interestLevel = 4,
+        difficultyLevel = 2,
+        comment = "実用的なアルゴリズムの知識が得られ、将来のプログラミングプロジェクトに活かせそうです。"
+    ),
+    Review(
+        enrollmentYear = 2018,
+        date = dateFormat.parse("2018-08-10"),
+        interestLevel = 2,
+        difficultyLevel = 4,
+        comment = "内容は難しかったですが、挑戦的な授業でした。新しいスキルを獲得できました。"
+    ),
+    Review(
+        enrollmentYear = 2017,
+        date = dateFormat.parse("2017-02-25"),
+        interestLevel = 4,
+        difficultyLevel = 3,
+        comment = "講義は非常に面白く、アルゴリズムの実装に興味を持つようになりました。"
+    ),
+    Review(
+        enrollmentYear = 2016,
+        date = dateFormat.parse("2016-07-08"),
+        interestLevel = 3,
+        difficultyLevel = 2,
+        comment = "データ構造とアルゴリズムの基本を学び、プログラミングスキルが向上しました。"
+    ),
+    Review(
+        enrollmentYear = 2015,
+        date = dateFormat.parse("2015-12-20"),
+        interestLevel = 5,
+        difficultyLevel = 1,
+        comment = "最高の講義で、高度なアルゴリズムの学習を通じて成長しました。"
+    ),
+    Review(
+        enrollmentYear = 2014,
+        date = dateFormat.parse("2014-03-12"),
+        interestLevel = 3,
+        difficultyLevel = 4,
+        comment = "内容は難しかったが、問題解決スキルが向上しました。"
+    )
+)
+
 
 @Composable
 fun ReviewActivity() {
-    val TAG = "ReviewActivity"
-
-    // Reviewを大量に宣言（ChatGPT最強！！ChatGPT最強！！）
-    val initialReviews = mutableListOf(
-        Review(
-            enrollmentYear = 2023,
-            date = dateFormat.parse("2023-01-15"),
-            interestLevel = 4,
-            difficultyLevel = 3,
-            comment = "非常に面白い講義で、アルゴリズムとデータ構造について深く学ぶことができました。"
-        ),
-        Review(
-            enrollmentYear = 2022,
-            date = dateFormat.parse("2022-04-20"),
-            interestLevel = 3,
-            difficultyLevel = 2,
-            comment = "内容が濃い講義で、アルゴリズムの実装に挑戦しました。大変有益な経験でした。"
-        ),
-        Review(
-            enrollmentYear = 2021,
-            date = dateFormat.parse("2021-09-05"),
-            interestLevel = 5,
-            difficultyLevel = 1,
-            comment = "この講義は私のプログラミングスキルを飛躍的に向上させました。情熱的に学べました。"
-        ),
-        Review(
-            enrollmentYear = 2020,
-            date = dateFormat.parse("2020-11-30"),
-            interestLevel = 3,
-            difficultyLevel = 3,
-            comment = "授業内容は充実しており、アルゴリズムの理解が進みました。"
-        ),
-        Review(
-            enrollmentYear = 2019,
-            date = dateFormat.parse("2019-06-15"),
-            interestLevel = 4,
-            difficultyLevel = 2,
-            comment = "実用的なアルゴリズムの知識が得られ、将来のプログラミングプロジェクトに活かせそうです。"
-        ),
-        Review(
-            enrollmentYear = 2018,
-            date = dateFormat.parse("2018-08-10"),
-            interestLevel = 2,
-            difficultyLevel = 4,
-            comment = "内容は難しかったですが、挑戦的な授業でした。新しいスキルを獲得できました。"
-        ),
-        Review(
-            enrollmentYear = 2017,
-            date = dateFormat.parse("2017-02-25"),
-            interestLevel = 4,
-            difficultyLevel = 3,
-            comment = "講義は非常に面白く、アルゴリズムの実装に興味を持つようになりました。"
-        ),
-        Review(
-            enrollmentYear = 2016,
-            date = dateFormat.parse("2016-07-08"),
-            interestLevel = 3,
-            difficultyLevel = 2,
-            comment = "データ構造とアルゴリズムの基本を学び、プログラミングスキルが向上しました。"
-        ),
-        Review(
-            enrollmentYear = 2015,
-            date = dateFormat.parse("2015-12-20"),
-            interestLevel = 5,
-            difficultyLevel = 1,
-            comment = "最高の講義で、高度なアルゴリズムの学習を通じて成長しました。"
-        ),
-        Review(
-            enrollmentYear = 2014,
-            date = dateFormat.parse("2014-03-12"),
-            interestLevel = 3,
-            difficultyLevel = 4,
-            comment = "内容は難しかったが、問題解決スキルが向上しました。"
-        )
-    )
+//    val TAG = "ReviewActivity"
 
     // こう書くとreviewsが変更されたときに勝手に再描画してくれるらしいよ！
     var reviews by remember {
         mutableStateOf(initialReviews)
     }
+    var selectedSortOption by remember { mutableStateOf("受講年度順") }
+
     var test by remember {
         mutableStateOf(0)
     }
 
     Column {
         Row {
-
-
             // タイトルを表示
             Text(
                 text = "データ構造とアルゴリズム",
                 modifier = Modifier.padding(16.dp)
             )
-            Text(
-                text = "並び替え",
-                modifier = Modifier.padding(16.dp)
+            DropdownMenu(
+                selectedSortOption = selectedSortOption,
+                onSortOptionSelected = { option ->
+                    selectedSortOption = option
+                    reviews = when (option) {
+                        "受講年度順" -> sortReviewByYear(initialReviews)
+                        "面白さ順" -> sortReviewByInterest(initialReviews)
+                        "難しさ順" -> sortReviewByDifficulty(initialReviews)
+                        else -> initialReviews // デフォルトは元の順序
+                    }
+                }
             )
-        }
-        Row {
-            Button(
-                onClick = {
-                    test++
-                    reviews = sortReviewByYear(initialReviews)
-                    Log.i(TAG, "ReviewActivity: ${test}")
-                },
-                modifier = Modifier
-                    .padding(end = 8.dp)
-//                    .wrapContentWidth(Alignment.End) // 右寄せにする
-            ) {
-                Text(text = "受講年度順")
-            }
-            Button(
-                onClick = {
-                    test++
-                    reviews = sortReviewByInterest(initialReviews)
-                    Log.i(TAG, "ReviewActivity: ${test}")
-                },
-                modifier = Modifier
-                    .padding(end = 8.dp)
-//                    .wrapContentWidth(Alignment.End) // 右寄せにする
-            ) {
-                Text(text = "面白さ順")
-            }
-            Button(
-                onClick = {
-                    test++
-                    reviews = sortReviewByDifficulty(initialReviews)
-                    Log.i(TAG, "ReviewActivity: ${test}")
-                },
-                modifier = Modifier
-                    .padding(end = 8.dp)
-//                    .wrapContentWidth(Alignment.End) // 右寄せにする
-            ) {
-                Text(text = "難しさ順")
-            }
         }
         displayReviews(reviews = reviews)
     }
@@ -182,7 +160,7 @@ fun ReviewActivity() {
 
 // 渡されたすべてのレビューを表示
 @Composable
-fun displayReviews(reviews: MutableList<Review>){
+fun displayReviews(reviews: MutableList<Review>) {
     // ColumnじゃなくてLazyColumにすると勝手にスクロール出来るようにしてくれるらしい！便利！
     LazyColumn {
         // reviewsの要素をすべて描画する
@@ -235,3 +213,110 @@ fun displayReview(review: Review) {
         }
     }
 }
+
+// ドロップダウンメニューを作成
+
+@Composable
+fun DropdownMenu(
+    selectedSortOption: String,
+    onSortOptionSelected: (String) -> Unit
+) {
+    var expanded by remember { mutableStateOf(false) }
+
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.TopEnd
+    ) {
+
+//        Text(text = "$selectedSortOption", modifier = Modifier.padding(16.dp))
+
+        Row(
+//            verticalAlignment = Alignment.CenterVertically
+        ) {
+            IconButton(onClick = { expanded = true }) {
+                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null)
+            }
+//            Icon(
+//                imageVector = Icons.Default.ArrowDropDown,
+//                contentDescription = null,
+//                modifier = Modifier.padding(end = 8.dp) // アイコンとテキストの間にスペースを設ける
+//            )
+            Text(text = "$selectedSortOption", modifier = Modifier.padding(16.dp))
+        }
+
+
+//        IconButton(onClick = { expanded = true }) {
+//            Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null)
+//        }
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            DropdownMenuItem(onClick = {
+                onSortOptionSelected("受講年度順")
+                expanded = false
+            }) {
+                Text(text = "受講年度順")
+            }
+            DropdownMenuItem(onClick = {
+                onSortOptionSelected("面白さ順")
+                expanded = false
+            }) {
+                Text(text = "面白さ順")
+            }
+            DropdownMenuItem(onClick = {
+                onSortOptionSelected("難しさ順")
+                expanded = false
+            }) {
+                Text(text = "難しさ順")
+            }
+        }
+    }
+}
+
+//@Composable
+//fun DropdownMenu(initialReviews: MutableList<Review>): MutableList<Review>{
+//    var expanded by remember { mutableStateOf(false) }
+//    var selectedOption by remember { mutableStateOf("受講年度順") }
+//    var sortedReviews:MutableList<Review> = mutableListOf()
+//
+//    Column {
+//        Box(
+//            modifier = Modifier.fillMaxWidth(),
+//            contentAlignment = Alignment.TopEnd
+//        ) {
+//            Text(text = "並び替え: $selectedOption", modifier = Modifier.padding(16.dp))
+//            IconButton(onClick = { expanded = true }) {
+//                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null)
+//            }
+//            DropdownMenu(
+//                expanded = expanded,
+//                onDismissRequest = { expanded = false }
+//            ) {
+//                DropdownMenuItem(onClick = {
+//                    selectedOption = "受講年度順"
+//                    sortedReviews = sortReviewByDifficulty(initialReviews)
+//                    expanded = false
+//                }) {
+//                    Text(text = "受講年度順")
+//                }
+//                DropdownMenuItem(onClick = {
+//                    selectedOption = "面白さ順"
+//                    sortedReviews = sortReviewByInterest(initialReviews)
+//                    expanded = false
+//                }) {
+//                    Text(text = "面白さ順")
+//                }
+//                DropdownMenuItem(onClick = {
+//                    selectedOption = "難しさ順"
+//                    sortedReviews = sortReviewByDifficulty(initialReviews)
+//                    expanded = false
+//                }) {
+//                    Text(text = "難しさ順")
+//                }
+//            }
+//        }
+//    }
+//    return sortedReviews
+////    return 1
+//}
