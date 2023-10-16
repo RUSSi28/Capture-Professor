@@ -58,7 +58,7 @@ fun ShowClasses(
             .background(Color.White)
             .fillMaxWidth(),
 
-    ){
+        ){
         Text(
             text = classCard.id.toString(),
             modifier = modifier
