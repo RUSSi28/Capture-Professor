@@ -15,6 +15,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -38,11 +39,20 @@ class Kakomon(val subjectName:String, val array:Array<KakomonData> ) {
 // バーを押すと開く感じにする
 // 引数には名前+1要素が1過去問の配列
 //fun Sort() {}
-    @Composable
-    fun Bar(index: Int) {//配列にはアクセスできる
+@Composable
+fun MainUI(){
+    TopAppBar (
+        title = { Text(text = subjectName) },
+        backgroundColor = Color(100,80,180),
+    )
+}
 
+
+
+
+@Composable
+fun Bar(index: Int) {//配列にはアクセスできる
         Surface {//この中です。
-
             var isExpanded by remember { mutableStateOf(false) }
             Column(//ここの記述が問題だ！
                 modifier = Modifier
@@ -50,7 +60,7 @@ class Kakomon(val subjectName:String, val array:Array<KakomonData> ) {
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {//ボタンをおきたい
-                Button(
+                Button(//ボタンの標準カラーが青
                     onClick = { isExpanded = !isExpanded },
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -65,24 +75,22 @@ class Kakomon(val subjectName:String, val array:Array<KakomonData> ) {
                                 contentDescription = null,
                             )
                             Text(
-                                text = array[0].teacherName,
+                                text = array[index].teacherName+"先生",
                                 color = Color.White
                             )
                             Text(
-                                text = array[0].year.toString(),
+                                text = array[index].year.toString(),
                                 color = Color.White
+
                             )
                         }
                         Spacer(modifier = Modifier.height(4.dp))
-                        Surface(
-                            shape = MaterialTheme.shapes.medium,
-                        ) {                        }
+
                     }
                 }
-
-                if (isExpanded) {//関係ない
+                if (isExpanded) {
                     Text(
-                        text = array[0].comment,
+                        text = array[index].comment,
                         modifier = Modifier.padding(all = 4.dp),
                     )
                     Image(
@@ -92,8 +100,6 @@ class Kakomon(val subjectName:String, val array:Array<KakomonData> ) {
 //                       modifier = imageModifier
                     )
                 }
-
-
             }
         }
 }

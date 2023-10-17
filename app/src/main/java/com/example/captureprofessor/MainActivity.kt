@@ -53,7 +53,6 @@ fun MyTopAppBar(modifier: Modifier = Modifier) {
         title = { Text(text = "Test") },
         backgroundColor = Color(255,255,255),
     )
-
 }
 
 @Preview(showBackground = true)

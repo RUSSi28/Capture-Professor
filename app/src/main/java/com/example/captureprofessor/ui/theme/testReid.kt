@@ -50,38 +50,22 @@ fun testReid(){
         modifier = Modifier
             .fillMaxWidth()
             .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.SpaceBetween
+//        verticalArrangement = Arrangement.SpaceBetween
             ){
-        val a = KakomonData("Noname",2023,"aaa", R.drawable.tubaicon)
-        val array = arrayOf(a)
+        val a = KakomonData("南角",2019,"過去問だけでなんとかなる", R.drawable.informationtheory)
+        val b = KakomonData("坂上",2023,"時間がない",R.drawable.ic_launcher_background)
+        val c = KakomonData("南角",2023,"aaa", R.drawable.informationtheory)
+        val d = KakomonData("南角",2023,"aaa", R.drawable.informationtheory)
+        val e = KakomonData("南角",2023,"aaa", R.drawable.informationtheory)
+        val f = KakomonData("坂上",2023,"時間がない",R.drawable.ic_launcher_background)
+
+        val array = arrayOf(a,b,c,d,e,f)
         val subject1 = Kakomon("情報理論",array)
-
-        Text(
-            text = array.size.toString()
-        )
-
-        Text(
-            text = array[0].year.toString(),//なにこれ？？？？　　　
-            color = Color.White
-
-        )
-        Text(
-            text = array[0].comment
-        )//配列にアクセスはできるな、、、
-        Image(
-            painter = painterResource(id = array[0].imageId),
-            contentDescription = "情報理論",
-            contentScale = ContentScale.Fit,
-        )
-       subject1.Bar(0)
-        subject1.Bar(0)
-        subject1.Bar(0)
-        subject1.Bar(0)
-        subject1.Bar(0)
-        subject1.Bar(0)
-        subject1.Bar(0)
-        subject1.Bar(0)
-        subject1.Bar(0)
+        subject1.MainUI()
+        for(i in 0..5){
+            subject1.Bar(i)
+    }
+       subject1.Bar(0)//バーを出す関数を直接呼び出している
     }
 }
 
