@@ -1,6 +1,7 @@
 package com.example.captureprofessor
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -29,21 +31,18 @@ import com.example.captureprofessor.classes.card.ClassCard
 fun ListOfClasses(modifier: Modifier = Modifier) {
     var classList: MutableState<MutableList<ClassCard>> = remember { mutableStateOf(mutableListOf<ClassCard>()) }
     classList.value = testLists
-    Scaffold(
+    Column (
         modifier = modifier
+            .padding(4.dp)
             .fillMaxSize()
-            .background(color = Color.Blue),
-        topBar = {  }
-    ) {paddingValues ->
-        Column (
-            modifier = modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-        ){
-            classList.value.forEach {
-                ShowClasses(classCard = it)
-            }
+            .verticalScroll(rememberScrollState())
+    ){
+        classList.value.forEach {
+            ShowClasses(
+                classCard = it,
+                modifier = modifier,
+            )
+            Spacer(modifier = modifier.padding(4.dp))
         }
     }
 }
@@ -55,18 +54,24 @@ fun ShowClasses(
 ) {
     Row (
         modifier = modifier
-            .background(Color.White)
-            .fillMaxWidth(),
+            .border(width = 0.5.dp, color = Color.Black)
+            .fillMaxWidth()
+            .background(
+                shape = RoundedCornerShape(8.dp),
+                color = Color.LightGray
+            ),
 
     ){
         Text(
             text = classCard.id.toString(),
             modifier = modifier
                 .align(alignment = Alignment.CenterVertically)
-                .padding(8.dp)
+                .padding(12.dp),
         )
 
-        Column {
+        Column (
+            modifier = Modifier.padding(start = 8.dp)
+        ){
             Text(text = classCard.name)
             Text(text = classCard.description)
         }
