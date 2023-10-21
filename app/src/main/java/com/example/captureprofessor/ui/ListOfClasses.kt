@@ -2,11 +2,7 @@ package com.example.captureprofessor.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-<<<<<<< HEAD
-=======
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
->>>>>>> 667ec8cfc49dfdf771b83205860cc66ea65895bd
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
