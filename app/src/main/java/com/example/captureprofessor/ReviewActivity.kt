@@ -41,6 +41,16 @@ data class Review(
     val difficultyLevel: Int, // 授業の難しさ
     val comment: String, // コメント
 )
+// 授業情報を格納するデータクラス
+data class Lecture(
+    val lectureName: String,
+    val professorName: String,
+)
+
+val lectureSample = Lecture(
+    lectureName = "データ構造とアルゴリズム",
+    professorName = "片山喜章"
+)
 
 // SimpleDateFormatを設定しておくよ！
 private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
@@ -118,7 +128,6 @@ private val initialReviews = mutableListOf(
         comment = "内容は難しかったが、問題解決スキルが向上しました。"
     )
 )
-
 
 @Composable
 fun ReviewActivity() {
@@ -227,27 +236,12 @@ fun DropdownMenu(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopEnd
     ) {
-
-//        Text(text = "$selectedSortOption", modifier = Modifier.padding(16.dp))
-
-        Row(
-//            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row{
             IconButton(onClick = { expanded = true }) {
                 Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null)
             }
-//            Icon(
-//                imageVector = Icons.Default.ArrowDropDown,
-//                contentDescription = null,
-//                modifier = Modifier.padding(end = 8.dp) // アイコンとテキストの間にスペースを設ける
-//            )
             Text(text = "$selectedSortOption", modifier = Modifier.padding(16.dp))
         }
-
-
-//        IconButton(onClick = { expanded = true }) {
-//            Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null)
-//        }
         DropdownMenu(
             expanded = expanded,
             onDismissRequest = { expanded = false }
