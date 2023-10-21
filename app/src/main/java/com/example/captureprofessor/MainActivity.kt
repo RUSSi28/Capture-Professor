@@ -20,7 +20,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.captureprofessor.ui.ListOfClasses
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.captureprofessor.ui.ReviewActivity
 import com.example.captureprofessor.ui.theme.CaptureProfessorTheme
 
 class MainActivity : ComponentActivity() {
@@ -61,8 +64,29 @@ fun Test(modifier: Modifier = Modifier) {
         ){
             //実機またはエミュでテストするときはここに自身で作成した関数をおいてください
             //pushするときはaddの対象から外すかここから消しておいて
+            var navController = rememberNavController()
+            NavHost(
+                navController = navController,
+                startDestination = NavigationDestination.ListOfClass.name
+            ){
+                composable(route = NavigationDestination.ListOfClass.name){
+                    ListOfClasses(
+                        onClassClicked = {
+                            navController.navigate(route = NavigationDestination.ClassEvaluation.name)
+                        }
+                    )
+                }
+                composable(route = NavigationDestination.ClassEvaluation.name) {
+                    ReviewActivity()
+                }
+            }
         }
     }
+}
+
+enum class NavigationDestination{
+    ListOfClass,
+    ClassEvaluation,
 }
 
 

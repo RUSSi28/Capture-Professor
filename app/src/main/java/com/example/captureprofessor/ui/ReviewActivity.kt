@@ -1,4 +1,4 @@
-package com.example.captureprofessor
+package com.example.captureprofessor.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +28,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.captureprofessor.sortReviewByDifficulty
+import com.example.captureprofessor.sortReviewByInterest
+import com.example.captureprofessor.sortReviewByYear
 import java.text.SimpleDateFormat
 import java.util.Date
 

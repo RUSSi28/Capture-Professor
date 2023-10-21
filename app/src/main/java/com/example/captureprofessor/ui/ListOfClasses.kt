@@ -2,6 +2,7 @@ package com.example.captureprofessor
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,8 +28,10 @@ import androidx.compose.ui.unit.dp
 import com.example.captureprofessor.classes.card.ClassCard
 
 @Composable
-@Preview
-fun ListOfClasses(modifier: Modifier = Modifier) {
+fun ListOfClasses(
+    modifier: Modifier = Modifier,
+    onClassClicked: () -> Unit,
+) {
     var classList: MutableState<MutableList<ClassCard>> = remember { mutableStateOf(mutableListOf<ClassCard>()) }
     classList.value = testLists
     Column (
@@ -40,7 +43,7 @@ fun ListOfClasses(modifier: Modifier = Modifier) {
         classList.value.forEach {
             ShowClasses(
                 classCard = it,
-                modifier = modifier,
+                modifier = modifier.clickable { onClassClicked() },
             )
             Spacer(modifier = modifier.padding(4.dp))
         }
