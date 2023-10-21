@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.captureprofessor.ui.ListOfClasses
 import com.example.captureprofessor.ui.ReviewActivity
 import com.example.captureprofessor.ui.theme.CaptureProfessorTheme
 
