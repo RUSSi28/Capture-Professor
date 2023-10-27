@@ -7,12 +7,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -32,7 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.captureprofessor.R
 
-class Kakomon(val subjectName:String, val array:Array<KakomonData> ) {
+class PastExams(val subjectName:String, val array:Array<KakomonData> ) {
 //画像(後で複数にするがとりあえず一枚)
 // アドバイスとかのテキスト
 // この二つをプロパティとして持つ
@@ -104,6 +101,8 @@ fun Bar(index: Int) {//配列にはアクセスできる
         }
 }
 }
+
+
 data class KakomonData(
     var teacherName:String="Noname",
     var year:Int=2023,
