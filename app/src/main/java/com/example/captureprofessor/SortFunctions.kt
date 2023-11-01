@@ -1,5 +1,7 @@
 package com.example.captureprofessor
 
+import com.example.captureprofessor.ui.Review
+
 
 // enrollmentYearが遅い順にソート
 fun sortReviewByYear(initialReviews: MutableList<ReviewData>): MutableList<ReviewData> {
