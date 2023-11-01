@@ -30,7 +30,7 @@ import com.example.captureprofessor.classes.card.ClassCard
 @Composable
 fun ListOfClasses(
     modifier: Modifier = Modifier,
-    onClassClicked: () -> Unit,
+    onClassClicked: (ClassCard) -> Unit,
 ) {
     var classList: MutableState<MutableList<ClassCard>> = remember { mutableStateOf(mutableListOf<ClassCard>()) }
     classList.value = testLists
@@ -44,7 +44,7 @@ fun ListOfClasses(
             Spacer(modifier = modifier.padding(4.dp))
             ShowClasses(
                 classCard = it,
-                modifier = modifier.clickable { onClassClicked() },
+                modifier = modifier.clickable { onClassClicked(it) },
             )
         }
     }

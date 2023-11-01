@@ -20,25 +20,47 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.captureprofessor.classes.card.ClassCard
 
 @Composable
-fun DetailOfClassUI(){
-    DetailPreview()
+fun DetailOfClassUI(
+    onClickPastExamButton: () -> Unit,
+    onClickEvaluationButton: () -> Unit,
+    onNavigateBack: () -> Unit,
+    classCard: ClassCard
+){
+    DetailPreview(
+        onClickPastExamButton = onClickPastExamButton,
+        onClickEvaluationButton = onClickEvaluationButton,
+        onNavigateBack = onNavigateBack,
+        classCard = classCard
+    )
     ShowTitle("title")
 }
 
 
 @Composable
-fun DetailPreview() {
+fun DetailPreview(
+    onClickEvaluationButton: () -> Unit,
+    onClickPastExamButton: () -> Unit,
+    onNavigateBack: () -> Unit,
+    classCard: ClassCard
+) {
     Column {
-        ShowTitle("授業名")
+        ShowTitle("${classCard.name}")
         Spacer(modifier = Modifier.padding(16.dp))
-        ClassDetailWithButton()
+        ClassDetailWithButton(
+            onClickEvaluationButton = onClickEvaluationButton,
+            onClickPastExamButton = onClickPastExamButton,
+            onNavigateBack = onNavigateBack,
+            classCard = classCard
+        )
     }
 }
 
@@ -52,19 +74,24 @@ fun ShowTitle(title:String){
 }
 
 @Composable
-fun ClassDetailWithButton(modifier:Modifier= Modifier
-    .fillMaxSize()){
+fun ClassDetailWithButton(
+    modifier:Modifier= Modifier.fillMaxSize(),
+    onClickPastExamButton: () -> Unit,
+    onClickEvaluationButton: () -> Unit,
+    onNavigateBack: () -> Unit,
+    classCard: ClassCard
+){
     Column(modifier=modifier,horizontalAlignment=Alignment.CenterHorizontally) {
             Row {
                 //過去問ページへ飛ぶ
-                Button(onClick = { /*TODO*/ }) {
+                Button(onClick = onClickPastExamButton) {//ここにもNavigationの処理渡したいんだけど階層が深い
                     Text("過去問を見る")
 
                 }
                 Spacer(modifier = Modifier.padding(16.dp))
                 //教授評価ページへ飛ぶ
-                Button(onClick = { /*TODO*/ }) {
-                    Text("教授の評価")
+                Button(onClick = onClickEvaluationButton) {
+                    Text("${classCard.description}") //教授の評価(倫理的に問題あるから授業の評価(攻略のさぶとしたほうがよさそう))
 
                 }
 
@@ -87,7 +114,7 @@ fun ClassDetailWithButton(modifier:Modifier= Modifier
         }
         Spacer(modifier = Modifier.padding(64.dp))
         //授業一覧ページへ飛ぶボタン
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = onNavigateBack) {
                 Text("授業一覧へ戻る")
 
             }

@@ -9,25 +9,31 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.captureprofessor.classes.card.ClassCard
 import com.example.captureprofessor.ui.ListOfClasses
 import com.example.captureprofessor.ui.ReviewActivity
 import com.example.captureprofessor.ui.theme.CaptureProfessorTheme
+import com.example.captureprofessor.ui.themeimport.PastExamCollection
+import com.websarba.wings.android.detailofactivity.DetailOfClassUI
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,12 +48,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Test(modifier: Modifier = Modifier) {
+    var navController = rememberNavController()
+
     Scaffold(
         modifier = Modifier
             .fillMaxSize(),
         topBar = {
             MyTopAppBar(
-                onAddClicked = {  }
+                onAddClicked = {  },//ここにも追加画面の画面遷移を使用したい
             )
         }
     ) {paddingValues ->
@@ -64,22 +72,41 @@ fun Test(modifier: Modifier = Modifier) {
                     )
                 )
         ){
-            //実機またはエミュでテストするときはここに自身で作成した関数をおいてください
-            //pushするときはaddの対象から外すかここから消しておいて
-            var navController = rememberNavController()
+
+            var focusedClass by remember { mutableStateOf<ClassCard>(ClassCard(0,"", "")) }
+            //ここの値を渡したいんだけど階層深すぎてかくのめんどくさいよね多分
+
             NavHost(
                 navController = navController,
                 startDestination = NavigationDestination.ListOfClass.name
             ){
                 composable(route = NavigationDestination.ListOfClass.name){
+                    //講義一覧→詳細画面
                     ListOfClasses(
                         onClassClicked = {
-                            navController.navigate(route = NavigationDestination.ClassEvaluation.name)
+                            navController.navigate(route = NavigationDestination.DetailOfClass.name)
+                            focusedClass = it
                         }
+                    )
+                }
+                composable(route = NavigationDestination.DetailOfClass.name) {
+                    //詳細画面→れびゅー
+                    DetailOfClassUI(
+                        onClickEvaluationButton = {
+                            navController.navigate(route = NavigationDestination.ClassEvaluation.name)
+                        },
+                        onClickPastExamButton = {
+                            navController.navigate(route = NavigationDestination.PastExams.name)
+                        },
+                        onNavigateBack = { navController.popBackStack() },
+                        classCard = focusedClass
                     )
                 }
                 composable(route = NavigationDestination.ClassEvaluation.name) {
                     ReviewActivity()
+                }
+                composable(route = NavigationDestination.PastExams.name) {
+                    PastExamCollection()
                 }
             }
         }
@@ -89,21 +116,21 @@ fun Test(modifier: Modifier = Modifier) {
 enum class NavigationDestination{
     ListOfClass,
     ClassEvaluation,
+    PastExams,
+    DetailOfClass
 }
 
 @Composable
 fun MyTopAppBar(
     modifier: Modifier = Modifier,
-    onAddClicked: () -> Unit
+    onAddClicked: () -> Unit,
 ) {
     TopAppBar (
         modifier = modifier,
         title = { Text(text = "Lectures") },
         backgroundColor = Color(255,255,255),
         navigationIcon = {
-//            if(currentScreen == Home) {
-            Icon(imageVector = Icons.Filled.Home, contentDescription = "HOME")
-//            }
+
         },
         actions = {
             IconButton(onClick = onAddClicked) {
