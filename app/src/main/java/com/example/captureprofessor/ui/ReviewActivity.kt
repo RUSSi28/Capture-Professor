@@ -1,5 +1,6 @@
 package com.example.captureprofessor
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,8 +32,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import java.text.SimpleDateFormat
-import java.util.Date
 
 private const val TAG = "ReviewActivity"
 
@@ -134,6 +136,24 @@ private val initialReviews = mutableListOf(
 
 @Composable
 fun ReviewActivity(sortViewModel: SortViewModel) {
+    val db = Firebase.firestore
+    // Create a new user with a first and last name
+    val user = hashMapOf(
+        "first" to "Ada",
+        "last" to "Lovelace",
+        "born" to 1815,
+    )
+
+// Add a new document with a generated ID
+    db.collection("users")
+        .add(user)
+        .addOnSuccessListener { documentReference ->
+            Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+        }
+        .addOnFailureListener { e ->
+            Log.w(TAG, "Error adding document", e)
+        }
+
 //    val TAG = "ReviewActivity"
 //    var selectedSort by remember { mutableStateOf(sortViewModel.selectedSortOption) }
     var selectedSort = sortViewModel.selectedSortOption
@@ -154,22 +174,11 @@ fun ReviewActivity(sortViewModel: SortViewModel) {
 //                buttonScreenViewModel = ButtonScreenViewModel()
 //            )
             Text(
-                text = "データ構造とアルゴリズム" + selectedSort.value,
+                text = "データ構造とアルゴリズム ",
                 modifier = Modifier.padding(16.dp)
             )
-//            DropdownMenu(
-//                selectedSortOption = selectedSortOption,
-//                onSortOptionSelected = { option ->
-//                    selectedSortOption = option
-//                    reviews = when (option) {
-//                        "受講年度順" -> sortReviewByYear(initialReviews)
-//                        "面白さ順" -> sortReviewByInterest(initialReviews)
-//                        "難しさ順" -> sortReviewByDifficulty(initialReviews)
-//                        else -> initialReviews // デフォルトは元の順序
-//                    }
-//                }
-//            )
-            DropdownMenu(sortViewModel = SortViewModel(),
+            DropdownMenu(
+                selectedSortOption = selectedSortOption,
                 onSortOptionSelected = { option ->
                     selectedSortOption = option
                     reviews = when (option) {
@@ -178,8 +187,19 @@ fun ReviewActivity(sortViewModel: SortViewModel) {
                         "難しさ順" -> sortReviewByDifficulty(initialReviews)
                         else -> initialReviews // デフォルトは元の順序
                     }
-
-                })
+                }
+            )
+//            DropdownMenu(sortViewModel = SortViewModel(),
+//                onSortOptionSelected = { option ->
+//                    selectedSortOption = option
+//                    reviews = when (option) {
+//                        "受講年度順" -> sortReviewByYear(initialReviews)
+//                        "面白さ順" -> sortReviewByInterest(initialReviews)
+//                        "難しさ順" -> sortReviewByDifficulty(initialReviews)
+//                        else -> initialReviews // デフォルトは元の順序
+//                    }
+//
+//                })
         }
         displayReviews(reviews = reviews)
     }
@@ -243,59 +263,14 @@ fun displayReview(review: ReviewData) {
 
 // ドロップダウンメニューを作成
 
-//@Composable
-//fun DropdownMenu(
-//    selectedSortOption: String,
-//    onSortOptionSelected: (String) -> Unit
-//) {
-////    val sortViewModel = SortViewModel()
-//    var expanded by remember { mutableStateOf(false) }
-////    var selectedSort = sortViewModel.selectedSort
-//
-//    Box(
-//        modifier = Modifier.fillMaxWidth(),
-//        contentAlignment = Alignment.TopEnd
-//    ) {
-//        Row {
-//            IconButton(onClick = { expanded = true }) {
-//                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null)
-//            }
-//            Text(text = "$selectedSortOption", modifier = Modifier.padding(16.dp))
-//        }
-//        DropdownMenu(
-//            expanded = expanded,
-//            onDismissRequest = { expanded = false }
-//        ) {
-//            DropdownMenuItem(onClick = {
-//                onSortOptionSelected("受講年度順")
-//                expanded = false
-//            }) {
-//                Text(text = "受講年度順")
-//            }
-//            DropdownMenuItem(onClick = {
-//                onSortOptionSelected("面白さ順")
-//                expanded = false
-//            }) {
-//                Text(text = "面白さ順")
-//            }
-//            DropdownMenuItem(onClick = {
-//                onSortOptionSelected("難しさ順")
-//                expanded = false
-//            }) {
-//                Text(text = "難しさ順")
-//            }
-//        }
-//    }
-//}
-
 @Composable
 fun DropdownMenu(
-    sortViewModel: SortViewModel,
+    selectedSortOption: String,
     onSortOptionSelected: (String) -> Unit
 ) {
 //    val sortViewModel = SortViewModel()
     var expanded by remember { mutableStateOf(false) }
-    var selectedSortOption = sortViewModel.selectedSortOption
+//    var selectedSort = sortViewModel.selectedSort
 
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -313,21 +288,18 @@ fun DropdownMenu(
         ) {
             DropdownMenuItem(onClick = {
                 onSortOptionSelected("受講年度順")
-                selectedSortOption.value = "受講年度順"
                 expanded = false
             }) {
                 Text(text = "受講年度順")
             }
             DropdownMenuItem(onClick = {
                 onSortOptionSelected("面白さ順")
-                selectedSortOption.value = "面白さ順"
                 expanded = false
             }) {
                 Text(text = "面白さ順")
             }
             DropdownMenuItem(onClick = {
                 onSortOptionSelected("難しさ順")
-                selectedSortOption.value = "難しさ順"
                 expanded = false
             }) {
                 Text(text = "難しさ順")
@@ -335,6 +307,54 @@ fun DropdownMenu(
         }
     }
 }
+
+//@Composable
+//fun DropdownMenu(
+//    sortViewModel: SortViewModel,
+//    onSortOptionSelected: (String) -> Unit
+//) {
+////    val sortViewModel = SortViewModel()
+//    var expanded by remember { mutableStateOf(false) }
+//    var selectedSortOption = sortViewModel.selectedSortOption
+//
+//    Box(
+//        modifier = Modifier.fillMaxWidth(),
+//        contentAlignment = Alignment.TopEnd
+//    ) {
+//        Row {
+//            IconButton(onClick = { expanded = true }) {
+//                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null)
+//            }
+//            Text(text = "$selectedSortOption", modifier = Modifier.padding(16.dp))
+//        }
+//        DropdownMenu(
+//            expanded = expanded,
+//            onDismissRequest = { expanded = false }
+//        ) {
+//            DropdownMenuItem(onClick = {
+//                onSortOptionSelected("受講年度順")
+//                selectedSortOption.value = "受講年度順"
+//                expanded = false
+//            }) {
+//                Text(text = "受講年度順")
+//            }
+//            DropdownMenuItem(onClick = {
+//                onSortOptionSelected("面白さ順")
+//                selectedSortOption.value = "面白さ順"
+//                expanded = false
+//            }) {
+//                Text(text = "面白さ順")
+//            }
+//            DropdownMenuItem(onClick = {
+//                onSortOptionSelected("難しさ順")
+//                selectedSortOption.value = "難しさ順"
+//                expanded = false
+//            }) {
+//                Text(text = "難しさ順")
+//            }
+//        }
+//    }
+//}
 
 @Composable
 fun ButtonCompose(
@@ -351,7 +371,7 @@ fun ButtonCompose(
         Text(
             modifier = Modifier.padding(horizontal = 4.dp),
             text = mytext.value,
-            fontSize = 14.sp,
+//            fontSize = 14.sp,
         )
         if (!isTapped.value) {  //isTapped = trueだった場合そもそもButtonの描画がされ_ないようになる
             Button(

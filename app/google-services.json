@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "131067944331",
+    "project_id": "captureprofessor",
+    "storage_bucket": "captureprofessor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131067944331:android:bbad4410b1f9f041d6238e",
+        "android_client_info": {
+          "package_name": "com.example.captureprofessor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCzwDlNOSC996OuC8R_xAQ8P6TkOLuWwTU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
-import com.example.captureprofessor.ui.Lecture
+//import com.example.captureprofessor.ui.Lecture
 
 private val TAG = "InputData"
 
