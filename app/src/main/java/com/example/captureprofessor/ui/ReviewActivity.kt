@@ -1,9 +1,12 @@
-package com.example.captureprofessor.ui
+package com.example.captureprofessor
 
+import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.DropdownMenu
 import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
@@ -28,129 +32,82 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.example.captureprofessor.sortReviewByDifficulty
-import com.example.captureprofessor.sortReviewByInterest
-import com.example.captureprofessor.sortReviewByYear
-import java.text.SimpleDateFormat
-import java.util.Date
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 
 private const val TAG = "ReviewActivity"
 
 // レビューを格納するデータクラス
-data class Review(
-    val enrollmentYear: Int, // 受講年度
-    val date: Date, // コメント日付
-    val interestLevel: Int, // 授業の面白さ
-    val difficultyLevel: Int, // 授業の難しさ
-    val comment: String, // コメント
-)
-// 授業情報を格納するデータクラス
-data class Lecture(
-    val lectureName: String,
-    val professorName: String,
-)
+//data class Review(
+//    val enrollmentYear: Int, // 受講年度
+//    val date: Date, // コメント日付
+//    val interestLevel: Int, // 授業の面白さ
+//    val difficultyLevel: Int, // 授業の難しさ
+//    val comment: String, // コメント
+//)
 
-val lectureSample = Lecture(
-    lectureName = "データ構造とアルゴリズム",
-    professorName = "片山喜章"
-)
 
-// SimpleDateFormatを設定しておくよ！
-private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-
-// Reviewを大量に宣言（ChatGPT最強！！ChatGPT最強！！）
-private val initialReviews = mutableListOf(
-    Review(
-        enrollmentYear = 2023,
-        date = dateFormat.parse("2023-01-15"),
-        interestLevel = 4,
-        difficultyLevel = 3,
-        comment = "非常に面白い講義で、アルゴリズムとデータ構造について深く学ぶことができました。"
-    ),
-    Review(
-        enrollmentYear = 2022,
-        date = dateFormat.parse("2022-04-20"),
-        interestLevel = 3,
-        difficultyLevel = 2,
-        comment = "内容が濃い講義で、アルゴリズムの実装に挑戦しました。大変有益な経験でした。"
-    ),
-    Review(
-        enrollmentYear = 2021,
-        date = dateFormat.parse("2021-09-05"),
-        interestLevel = 5,
-        difficultyLevel = 1,
-        comment = "この講義は私のプログラミングスキルを飛躍的に向上させました。情熱的に学べました。"
-    ),
-    Review(
-        enrollmentYear = 2020,
-        date = dateFormat.parse("2020-11-30"),
-        interestLevel = 3,
-        difficultyLevel = 3,
-        comment = "授業内容は充実しており、アルゴリズムの理解が進みました。"
-    ),
-    Review(
-        enrollmentYear = 2019,
-        date = dateFormat.parse("2019-06-15"),
-        interestLevel = 4,
-        difficultyLevel = 2,
-        comment = "実用的なアルゴリズムの知識が得られ、将来のプログラミングプロジェクトに活かせそうです。"
-    ),
-    Review(
-        enrollmentYear = 2018,
-        date = dateFormat.parse("2018-08-10"),
-        interestLevel = 2,
-        difficultyLevel = 4,
-        comment = "内容は難しかったですが、挑戦的な授業でした。新しいスキルを獲得できました。"
-    ),
-    Review(
-        enrollmentYear = 2017,
-        date = dateFormat.parse("2017-02-25"),
-        interestLevel = 4,
-        difficultyLevel = 3,
-        comment = "講義は非常に面白く、アルゴリズムの実装に興味を持つようになりました。"
-    ),
-    Review(
-        enrollmentYear = 2016,
-        date = dateFormat.parse("2016-07-08"),
-        interestLevel = 3,
-        difficultyLevel = 2,
-        comment = "データ構造とアルゴリズムの基本を学び、プログラミングスキルが向上しました。"
-    ),
-    Review(
-        enrollmentYear = 2015,
-        date = dateFormat.parse("2015-12-20"),
-        interestLevel = 5,
-        difficultyLevel = 1,
-        comment = "最高の講義で、高度なアルゴリズムの学習を通じて成長しました。"
-    ),
-    Review(
-        enrollmentYear = 2014,
-        date = dateFormat.parse("2014-03-12"),
-        interestLevel = 3,
-        difficultyLevel = 4,
-        comment = "内容は難しかったが、問題解決スキルが向上しました。"
-    )
-)
-
+// 講座名を引数で渡してください
 @Composable
-fun ReviewActivity() {
-//    val TAG = "ReviewActivity"
+fun ReviewActivity(LectureName: String) {
+    val db = Firebase.firestore
 
-    // こう書くとreviewsが変更されたときに勝手に再描画してくれるらしいよ！
-    var reviews by remember {
-        mutableStateOf(initialReviews)
-    }
+    // ここで授業情報を格納する
+    db.collection("lectures").document(LectureName)
+        .set(lecture1)
+
+    // ここでレビューを追加する
+//    for (review in lecture1.reviews) {
+//        db.collection(LectureName).add(review)
+//    }
+
+
     var selectedSortOption by remember { mutableStateOf("受講年度順") }
+    var reviews by remember { mutableStateOf(mutableListOf<ReviewData>()) }
+    var updatedReviews = mutableListOf<ReviewData>()
 
-    var test by remember {
-        mutableStateOf(0)
-    }
+    // レビューを所得して、reviewsに格納する
+    val docRef = db.collection(LectureName)
+    docRef.get()
+        .addOnSuccessListener { documents ->
+            for (document in documents) {
+                if (document.exists()) {
+                    val enrollmentYear = document.getLong("enrollmentYear")
+                    val date = document.getDate("date")
+                    val interestLevel = document.getLong("interestLevel")
+                    val difficultyLevel = document.getLong("difficultyLevel")
+                    val comment = document.getString("comment")
+                    val reviewData = ReviewData(
+                        enrollmentYear = enrollmentYear!!.toInt(),
+                        date = date,
+                        interestLevel = interestLevel!!.toInt(),
+                        difficultyLevel = difficultyLevel!!.toInt(),
+                        comment = comment!!
+                    )
+                    updatedReviews.add(reviewData)
+                }
 
-    Column {
+            }
+//            reviews = when (selectedSortOption) {
+//                "受講年度順" -> sortReviewByYear(reviews)
+//                "面白さ順" -> sortReviewByInterest(reviews)
+//                "難しさ順" -> sortReviewByDifficulty(reviews)
+//                else -> sortReviewByYear(reviews) // デフォルトは年度順
+//            }
+            // こんな感じで代入しないと更新されない
+            reviews = updatedReviews
+        }
+
+
+    // 画面に描画する
+
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+    ) {
         Row {
-            // タイトルを表示
             Text(
-                text = "データ構造とアルゴリズム",
+                text = LectureName,
                 modifier = Modifier.padding(16.dp)
             )
             DropdownMenu(
@@ -158,23 +115,52 @@ fun ReviewActivity() {
                 onSortOptionSelected = { option ->
                     selectedSortOption = option
                     reviews = when (option) {
-                        "受講年度順" -> sortReviewByYear(initialReviews)
-                        "面白さ順" -> sortReviewByInterest(initialReviews)
-                        "難しさ順" -> sortReviewByDifficulty(initialReviews)
-                        else -> initialReviews // デフォルトは元の順序
+                        "受講年度順" -> sortReviewByYear(reviews)
+                        "面白さ順" -> sortReviewByInterest(reviews)
+                        "難しさ順" -> sortReviewByDifficulty(reviews)
+                        else -> sortReviewByYear(reviews) // デフォルトは年度順
                     }
                 }
             )
+
+//            DropdownMenu(sortViewModel = SortViewModel(),
+//                onSortOptionSelected = { option ->
+//                    selectedSortOption = option
+//                    reviews = when (option) {
+//                        "受講年度順" -> sortReviewByYear(initialReviews)
+//                        "面白さ順" -> sortReviewByInterest(initialReviews)
+//                        "難しさ順" -> sortReviewByDifficulty(initialReviews)
+//                        else -> initialReviews // デフォルトは元の順序
+//                    }
+//
+//                })
         }
         displayReviews(reviews = reviews)
+
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .padding(8.dp)
+            ) {
+            Text(text = "レビューを追加")
+        }
     }
 }
 
+
 // 渡されたすべてのレビューを表示
 @Composable
-fun displayReviews(reviews: MutableList<Review>) {
+fun displayReviews(reviews: MutableList<ReviewData>) {
     // ColumnじゃなくてLazyColumにすると勝手にスクロール出来るようにしてくれるらしい！便利！
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier
+            .height(600.dp),
+//            .fillMaxSize(),
+//            .padding(horizontal = 16.dp),
+    ) {
+        Log.d(TAG, "displayReviews: ")
         // reviewsの要素をすべて描画する
         items(reviews) { review ->
 //            Spacer(modifier = Modifier.width(16.dp))
@@ -186,7 +172,7 @@ fun displayReviews(reviews: MutableList<Review>) {
 
 // 渡されたReviewを表示する
 @Composable
-fun displayReview(review: Review) {
+fun displayReview(review: ReviewData) {
 
     Surface(
         modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
@@ -233,13 +219,15 @@ fun DropdownMenu(
     selectedSortOption: String,
     onSortOptionSelected: (String) -> Unit
 ) {
+//    val sortViewModel = SortViewModel()
     var expanded by remember { mutableStateOf(false) }
+//    var selectedSort = sortViewModel.selectedSort
 
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopEnd
     ) {
-        Row{
+        Row {
             IconButton(onClick = { expanded = true }) {
                 Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null)
             }
@@ -266,6 +254,84 @@ fun DropdownMenu(
                 expanded = false
             }) {
                 Text(text = "難しさ順")
+            }
+        }
+    }
+}
+
+//@Composable
+//fun DropdownMenu(
+//    sortViewModel: SortViewModel,
+//    onSortOptionSelected: (String) -> Unit
+//) {
+////    val sortViewModel = SortViewModel()
+//    var expanded by remember { mutableStateOf(false) }
+//    var selectedSortOption = sortViewModel.selectedSortOption
+//
+//    Box(
+//        modifier = Modifier.fillMaxWidth(),
+//        contentAlignment = Alignment.TopEnd
+//    ) {
+//        Row {
+//            IconButton(onClick = { expanded = true }) {
+//                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null)
+//            }
+//            Text(text = "$selectedSortOption", modifier = Modifier.padding(16.dp))
+//        }
+//        DropdownMenu(
+//            expanded = expanded,
+//            onDismissRequest = { expanded = false }
+//        ) {
+//            DropdownMenuItem(onClick = {
+//                onSortOptionSelected("受講年度順")
+//                selectedSortOption.value = "受講年度順"
+//                expanded = false
+//            }) {
+//                Text(text = "受講年度順")
+//            }
+//            DropdownMenuItem(onClick = {
+//                onSortOptionSelected("面白さ順")
+//                selectedSortOption.value = "面白さ順"
+//                expanded = false
+//            }) {
+//                Text(text = "面白さ順")
+//            }
+//            DropdownMenuItem(onClick = {
+//                onSortOptionSelected("難しさ順")
+//                selectedSortOption.value = "難しさ順"
+//                expanded = false
+//            }) {
+//                Text(text = "難しさ順")
+//            }
+//        }
+//    }
+//}
+
+@Composable
+fun ButtonCompose(
+    buttonScreenViewModel: ButtonScreenViewModel
+) {
+    val mytext = buttonScreenViewModel.myTextState
+    val isTapped = buttonScreenViewModel.isTappedState
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally, // 横方向
+        verticalArrangement = Arrangement.Center // 縦方向
+    ) {
+        Text(
+            modifier = Modifier.padding(horizontal = 4.dp),
+            text = mytext.value,
+//            fontSize = 14.sp,
+        )
+        if (!isTapped.value) {  //isTapped = trueだった場合そもそもButtonの描画がされ_ないようになる
+            Button(
+                onClick = {
+                    isTapped.value = true
+                    mytext.value = "タップ不可"
+                }
+            ) {
+                Text("Click!")
             }
         }
     }
