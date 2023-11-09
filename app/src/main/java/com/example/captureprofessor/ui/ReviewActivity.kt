@@ -1,6 +1,7 @@
 package com.example.captureprofessor
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,7 +50,10 @@ private const val TAG = "ReviewActivity"
 
 // 講座名を引数で渡してください
 @Composable
-fun ReviewActivity(LectureName: String) {
+fun ReviewActivity(
+    onClickAddReviewButton: () -> Unit,
+    LectureName: String
+) {
     val db = Firebase.firestore
 
     // ここで授業情報を格納する
@@ -138,7 +142,7 @@ fun ReviewActivity(LectureName: String) {
         displayReviews(reviews = reviews)
 
         Button(
-            onClick = { /*TODO*/ },
+            onClick = onClickAddReviewButton,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp)
@@ -175,12 +179,19 @@ fun displayReviews(reviews: MutableList<ReviewData>) {
 fun displayReview(review: ReviewData) {
 
     Surface(
-        modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
+        modifier = Modifier
+            .padding(horizontal = 8.dp, vertical = 8.dp) ,
+        shape = RoundedCornerShape(8.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(
+                    color = Color(255, 255, 255, 255),
+                    shape = RoundedCornerShape(8.dp)
+                )
 //                .padding(16.dp)
+
         ) {
             Row {
                 Text(text = "${review.enrollmentYear}年度受講")

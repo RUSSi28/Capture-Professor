@@ -1,6 +1,8 @@
 package com.example.captureprofessor
 
+//import com.example.captureprofessor.ui.ReviewActivity
 import android.os.Bundle
+import android.provider.ContactsContract.Data
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -15,7 +17,6 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,13 +25,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.captureprofessor.classes.card.ClassCard
 import com.example.captureprofessor.ui.ListOfClasses
-import com.example.captureprofessor.ui.ReviewActivity
 import com.example.captureprofessor.ui.theme.CaptureProfessorTheme
 import com.example.captureprofessor.ui.themeimport.PastExamCollection
 import com.websarba.wings.android.detailofactivity.DetailOfClassUI
@@ -55,11 +54,11 @@ fun Test(modifier: Modifier = Modifier) {
             .fillMaxSize(),
         topBar = {
             MyTopAppBar(
-                onAddClicked = {  },//ここにも追加画面の画面遷移を使用したい
+                onAddClicked = { },//ここにも追加画面の画面遷移を使用したい
             )
         }
-    ) {paddingValues ->
-        Column (
+    ) { paddingValues ->
+        Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .background(
@@ -71,16 +70,16 @@ fun Test(modifier: Modifier = Modifier) {
                         )
                     )
                 )
-        ){
+        ) {
 
-            var focusedClass by remember { mutableStateOf<ClassCard>(ClassCard(0,"", "")) }
+            var focusedClass by remember { mutableStateOf<ClassCard>(ClassCard(0, "", "")) }
             //ここの値を渡したいんだけど階層深すぎてかくのめんどくさいよね多分
 
             NavHost(
                 navController = navController,
                 startDestination = NavigationDestination.ListOfClass.name
-            ){
-                composable(route = NavigationDestination.ListOfClass.name){
+            ) {
+                composable(route = NavigationDestination.ListOfClass.name) {
                     //講義一覧→詳細画面
                     ListOfClasses(
                         onClassClicked = {
@@ -103,7 +102,17 @@ fun Test(modifier: Modifier = Modifier) {
                     )
                 }
                 composable(route = NavigationDestination.ClassEvaluation.name) {
-                    ReviewActivity()
+                    ReviewActivity(
+                        onClickAddReviewButton = {
+                            navController.navigate(route = NavigationDestination.AddReviewClass.name)
+                        },
+                        focusedClass.name,
+                    )
+//                    DataForm("線形代数")
+                }
+                composable(route = NavigationDestination.AddReviewClass.name) {
+//                    ReviewActivity(focusedClass.name)
+                    DataForm(focusedClass.name)
                 }
                 composable(route = NavigationDestination.PastExams.name) {
                     PastExamCollection()
@@ -113,11 +122,12 @@ fun Test(modifier: Modifier = Modifier) {
     }
 }
 
-enum class NavigationDestination{
+enum class NavigationDestination {
     ListOfClass,
     ClassEvaluation,
     PastExams,
-    DetailOfClass
+    DetailOfClass,
+    AddReviewClass
 }
 
 @Composable
@@ -125,10 +135,10 @@ fun MyTopAppBar(
     modifier: Modifier = Modifier,
     onAddClicked: () -> Unit,
 ) {
-    TopAppBar (
+    TopAppBar(
         modifier = modifier,
         title = { Text(text = "Lectures") },
-        backgroundColor = Color(255,255,255),
+        backgroundColor = Color(255, 255, 255),
         navigationIcon = {
 
         },
