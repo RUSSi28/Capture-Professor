@@ -34,7 +34,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import java.text.SimpleDateFormat
 
 private const val TAG = "ReviewActivity"
 
@@ -46,135 +45,69 @@ private const val TAG = "ReviewActivity"
 //    val difficultyLevel: Int, // 授業の難しさ
 //    val comment: String, // コメント
 //)
-// 授業情報を格納するデータクラス
-data class Lecture(
-    val lectureName: String,
-    val professorName: String,
-)
 
-val lectureSample = Lecture(
-    lectureName = "データ構造とアルゴリズム",
-    professorName = "片山喜章"
-)
 
-// SimpleDateFormatを設定しておくよ！
-private val dateFormat = SimpleDateFormat("yyyy-MM-dd")
-
-// Reviewを大量に宣言（ChatGPT最強！！ChatGPT最強！！）
-private val initialReviews = mutableListOf(
-    ReviewData(
-        enrollmentYear = 2023,
-        date = dateFormat.parse("2023-01-15"),
-        interestLevel = 4,
-        difficultyLevel = 3,
-        comment = "非常に面白い講義で、アルゴリズムとデータ構造について深く学ぶことができました。"
-    ),
-    ReviewData(
-        enrollmentYear = 2022,
-        date = dateFormat.parse("2022-04-20"),
-        interestLevel = 3,
-        difficultyLevel = 2,
-        comment = "内容が濃い講義で、アルゴリズムの実装に挑戦しました。大変有益な経験でした。"
-    ),
-    ReviewData(
-        enrollmentYear = 2021,
-        date = dateFormat.parse("2021-09-05"),
-        interestLevel = 5,
-        difficultyLevel = 1,
-        comment = "この講義は私のプログラミングスキルを飛躍的に向上させました。情熱的に学べました。"
-    ),
-    ReviewData(
-        enrollmentYear = 2020,
-        date = dateFormat.parse("2020-11-30"),
-        interestLevel = 3,
-        difficultyLevel = 3,
-        comment = "授業内容は充実しており、アルゴリズムの理解が進みました。"
-    ),
-    ReviewData(
-        enrollmentYear = 2019,
-        date = dateFormat.parse("2019-06-15"),
-        interestLevel = 4,
-        difficultyLevel = 2,
-        comment = "実用的なアルゴリズムの知識が得られ、将来のプログラミングプロジェクトに活かせそうです。"
-    ),
-    ReviewData(
-        enrollmentYear = 2018,
-        date = dateFormat.parse("2018-08-10"),
-        interestLevel = 2,
-        difficultyLevel = 4,
-        comment = "内容は難しかったですが、挑戦的な授業でした。新しいスキルを獲得できました。"
-    ),
-    ReviewData(
-        enrollmentYear = 2017,
-        date = dateFormat.parse("2017-02-25"),
-        interestLevel = 4,
-        difficultyLevel = 3,
-        comment = "講義は非常に面白く、アルゴリズムの実装に興味を持つようになりました。"
-    ),
-    ReviewData(
-        enrollmentYear = 2016,
-        date = dateFormat.parse("2016-07-08"),
-        interestLevel = 3,
-        difficultyLevel = 2,
-        comment = "データ構造とアルゴリズムの基本を学び、プログラミングスキルが向上しました。"
-    ),
-    ReviewData(
-        enrollmentYear = 2015,
-        date = dateFormat.parse("2015-12-20"),
-        interestLevel = 5,
-        difficultyLevel = 1,
-        comment = "最高の講義で、高度なアルゴリズムの学習を通じて成長しました。"
-    ),
-    ReviewData(
-        enrollmentYear = 2014,
-        date = dateFormat.parse("2014-03-12"),
-        interestLevel = 3,
-        difficultyLevel = 4,
-        comment = "内容は難しかったが、問題解決スキルが向上しました。"
-    )
-)
-
+// 講座名を引数で渡してください
 @Composable
-fun ReviewActivity(sortViewModel: SortViewModel) {
+fun ReviewActivity(LectureName: String) {
     val db = Firebase.firestore
-    // Create a new user with a first and last name
-    val user = hashMapOf(
-        "first" to "Ada",
-        "last" to "Lovelace",
-        "born" to 1815,
-    )
 
-// Add a new document with a generated ID
-    db.collection("users")
-        .add(user)
-        .addOnSuccessListener { documentReference ->
-            Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-        }
-        .addOnFailureListener { e ->
-            Log.w(TAG, "Error adding document", e)
-        }
+    // ここで授業情報を格納する
+    db.collection("lectures").document(LectureName)
+        .set(lecture1)
 
-//    val TAG = "ReviewActivity"
-//    var selectedSort by remember { mutableStateOf(sortViewModel.selectedSortOption) }
-    var selectedSort = sortViewModel.selectedSortOption
-    // こう書くとreviewsが変更されたときに勝手に再描画してくれるらしいよ！
-    var reviews by remember {
-        mutableStateOf(initialReviews)
-    }
-    var test by remember {
-        mutableStateOf(1);
-    }
+    // ここでレビューを追加する
+//    for (review in lecture1.reviews) {
+//        db.collection(LectureName).add(review)
+//    }
+
 
     var selectedSortOption by remember { mutableStateOf("受講年度順") }
+    var reviews by remember { mutableStateOf(mutableListOf<ReviewData>()) }
+    var updatedReviews = mutableListOf<ReviewData>()
 
-    Column {
+    // レビューを所得して、reviewsに格納する
+    val docRef = db.collection(LectureName)
+    docRef.get()
+        .addOnSuccessListener { documents ->
+            for (document in documents) {
+                if (document.exists()) {
+                    val enrollmentYear = document.getLong("enrollmentYear")
+                    val date = document.getDate("date")
+                    val interestLevel = document.getLong("interestLevel")
+                    val difficultyLevel = document.getLong("difficultyLevel")
+                    val comment = document.getString("comment")
+                    val reviewData = ReviewData(
+                        enrollmentYear = enrollmentYear!!.toInt(),
+                        date = date,
+                        interestLevel = interestLevel!!.toInt(),
+                        difficultyLevel = difficultyLevel!!.toInt(),
+                        comment = comment!!
+                    )
+                    updatedReviews.add(reviewData)
+                }
+
+            }
+//            reviews = when (selectedSortOption) {
+//                "受講年度順" -> sortReviewByYear(reviews)
+//                "面白さ順" -> sortReviewByInterest(reviews)
+//                "難しさ順" -> sortReviewByDifficulty(reviews)
+//                else -> sortReviewByYear(reviews) // デフォルトは年度順
+//            }
+            // こんな感じで代入しないと更新されない
+            reviews = updatedReviews
+        }
+
+
+    // 画面に描画する
+
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+    ) {
         Row {
-            // タイトルを表示
-//            ButtonCompose(
-//                buttonScreenViewModel = ButtonScreenViewModel()
-//            )
             Text(
-                text = "データ構造とアルゴリズム ",
+                text = LectureName,
                 modifier = Modifier.padding(16.dp)
             )
             DropdownMenu(
@@ -182,13 +115,14 @@ fun ReviewActivity(sortViewModel: SortViewModel) {
                 onSortOptionSelected = { option ->
                     selectedSortOption = option
                     reviews = when (option) {
-                        "受講年度順" -> sortReviewByYear(initialReviews)
-                        "面白さ順" -> sortReviewByInterest(initialReviews)
-                        "難しさ順" -> sortReviewByDifficulty(initialReviews)
-                        else -> initialReviews // デフォルトは元の順序
+                        "受講年度順" -> sortReviewByYear(reviews)
+                        "面白さ順" -> sortReviewByInterest(reviews)
+                        "難しさ順" -> sortReviewByDifficulty(reviews)
+                        else -> sortReviewByYear(reviews) // デフォルトは年度順
                     }
                 }
             )
+
 //            DropdownMenu(sortViewModel = SortViewModel(),
 //                onSortOptionSelected = { option ->
 //                    selectedSortOption = option
@@ -202,14 +136,31 @@ fun ReviewActivity(sortViewModel: SortViewModel) {
 //                })
         }
         displayReviews(reviews = reviews)
+
+        Button(
+            onClick = { /*TODO*/ },
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(50.dp)
+                .padding(8.dp)
+            ) {
+            Text(text = "レビューを追加")
+        }
     }
 }
+
 
 // 渡されたすべてのレビューを表示
 @Composable
 fun displayReviews(reviews: MutableList<ReviewData>) {
     // ColumnじゃなくてLazyColumにすると勝手にスクロール出来るようにしてくれるらしい！便利！
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier
+            .height(600.dp),
+//            .fillMaxSize(),
+//            .padding(horizontal = 16.dp),
+    ) {
+        Log.d(TAG, "displayReviews: ")
         // reviewsの要素をすべて描画する
         items(reviews) { review ->
 //            Spacer(modifier = Modifier.width(16.dp))

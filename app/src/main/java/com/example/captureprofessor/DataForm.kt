@@ -21,19 +21,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
+import java.time.LocalDateTime
+
 //import com.example.captureprofessor.ui.Lecture
 
 private val TAG = "InputData"
 
-// コメントとボタンの配置は要修正
+// 講座名を引数で渡してください
 @Composable
-fun DataForm(lecture: Lecture) {
+fun DataForm(lectureName: String) {
 
     var enrollmentYear by remember { mutableStateOf("") }
     var difficultyLevel by remember { mutableStateOf("") }
     var interestLevel by remember { mutableStateOf("") }
     var comment by remember { mutableStateOf("") }
 
+    val db = Firebase.firestore
 
     Column(
         modifier = Modifier.padding(16.dp),
@@ -41,7 +46,7 @@ fun DataForm(lecture: Lecture) {
     ) {
         // タイトルを表示
         Text(
-            text = lecture.lectureName,
+            text = lectureName,
             modifier = Modifier.padding(8.dp)
         )
         OutlinedTextField(
@@ -102,7 +107,9 @@ fun DataForm(lecture: Lecture) {
 
 
         OutlinedTextField(
-            modifier = Modifier.fillMaxWidth().height(200.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp),
             value = comment,
             onValueChange = { comment = it },
             label = { Text("コメント") }
@@ -117,6 +124,16 @@ fun DataForm(lecture: Lecture) {
                 ) {
                     // データの保存を行う。
                     Log.i(TAG, "DataForm: click!")
+                    val date = LocalDateTime.now().toString()
+                    val reviewData = ReviewData(
+                        enrollmentYear = enrollmentYear!!.toInt(),
+                        date = dateFormat.parse(date),
+                        interestLevel = interestLevel!!.toInt(),
+                        difficultyLevel = difficultyLevel!!.toInt(),
+                        comment = comment!!
+                    )
+                    // ここでレビューを追加する
+                    db.collection(lectureName).add(reviewData)
                 }
             },
             modifier = Modifier
