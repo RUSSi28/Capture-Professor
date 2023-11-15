@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -41,7 +42,8 @@ fun DataForm(lectureName: String) {
     val db = Firebase.firestore
 
     Column(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.padding(16.dp)
+            .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         // タイトルを表示
