@@ -1,4 +1,4 @@
-package com.example.captureprofessor
+package com.example.captureprofessor.sample
 
 import java.text.SimpleDateFormat
 import java.util.Date

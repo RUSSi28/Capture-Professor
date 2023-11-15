@@ -33,6 +33,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.captureprofessor.sample.ReviewData
+import com.example.captureprofessor.sample.dateFormat
+import com.example.captureprofessor.sample.lecture1
+import com.example.captureprofessor.ui.ButtonScreenViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 
@@ -52,7 +56,8 @@ private const val TAG = "ReviewActivity"
 @Composable
 fun ReviewActivity(
     onClickAddReviewButton: () -> Unit,
-    LectureName: String
+    LectureName: String,
+    buttonScreenViewModel: ButtonScreenViewModel
 ) {
     val db = Firebase.firestore
 
@@ -119,10 +124,10 @@ fun ReviewActivity(
                 onSortOptionSelected = { option ->
                     selectedSortOption = option
                     reviews = when (option) {
-                        "受講年度順" -> sortReviewByYear(reviews)
-                        "面白さ順" -> sortReviewByInterest(reviews)
-                        "難しさ順" -> sortReviewByDifficulty(reviews)
-                        else -> sortReviewByYear(reviews) // デフォルトは年度順
+                        "受講年度順" -> buttonScreenViewModel.sortReviewByYear(reviews)
+                        "面白さ順" -> buttonScreenViewModel.sortReviewByInterest(reviews)
+                        "難しさ順" -> buttonScreenViewModel.sortReviewByDifficulty(reviews)
+                        else -> buttonScreenViewModel.sortReviewByYear(reviews) // デフォルトは年度順
                     }
                 }
             )

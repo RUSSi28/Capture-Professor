@@ -1,4 +1,4 @@
-package com.example.captureprofessor
+package com.example.captureprofessor.ui
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +22,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
+import com.example.captureprofessor.sample.ReviewData
+import com.example.captureprofessor.sample.dateFormat
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import java.time.LocalDateTime
