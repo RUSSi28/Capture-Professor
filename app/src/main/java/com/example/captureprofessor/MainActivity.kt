@@ -1,8 +1,7 @@
 package com.example.captureprofessor
 
-//import com.example.captureprofessor.ui.ReviewActivity
+
 import android.os.Bundle
-import android.provider.ContactsContract.Data
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -120,10 +119,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Test(modifier: Modifier = Modifier) {
-
-}
 
 enum class NavigationDestination {
     ListOfClass,
@@ -152,12 +147,4 @@ fun MyTopAppBar(
         }
     )
 
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CaptureProfessorTheme {
-        Test()
-    }
 }

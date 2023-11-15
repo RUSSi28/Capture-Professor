@@ -42,14 +42,6 @@ import com.google.firebase.firestore.firestore
 
 private const val TAG = "ReviewActivity"
 
-// レビューを格納するデータクラス
-//data class Review(
-//    val enrollmentYear: Int, // 受講年度
-//    val date: Date, // コメント日付
-//    val interestLevel: Int, // 授業の面白さ
-//    val difficultyLevel: Int, // 授業の難しさ
-//    val comment: String, // コメント
-//)
 
 
 // 講座名を引数で渡してください
@@ -65,10 +57,6 @@ fun ReviewActivity(
     db.collection("lectures").document(LectureName)
         .set(lecture1)
 
-    // ここでレビューを追加する
-//    for (review in lecture1.reviews) {
-//        db.collection(LectureName).add(review)
-//    }
 
 
     var selectedSortOption by remember { mutableStateOf("受講年度順") }
@@ -97,12 +85,7 @@ fun ReviewActivity(
                 }
 
             }
-//            reviews = when (selectedSortOption) {
-//                "受講年度順" -> sortReviewByYear(reviews)
-//                "面白さ順" -> sortReviewByInterest(reviews)
-//                "難しさ順" -> sortReviewByDifficulty(reviews)
-//                else -> sortReviewByYear(reviews) // デフォルトは年度順
-//            }
+
             // こんな感じで代入しないと更新されない
             reviews = updatedReviews
         }

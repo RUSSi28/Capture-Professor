@@ -28,7 +28,6 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import java.time.LocalDateTime
 
-//import com.example.captureprofessor.ui.Lecture
 
 private val TAG = "InputData"
 
@@ -60,7 +59,6 @@ fun DataForm(lectureName: String) {
                     enrollmentYear = it
                 }
             },
-//            placeholder = { Text("2023") }
             singleLine = true,
             label = { Text("受講年度") },
             keyboardOptions = KeyboardOptions.Default.copy(
@@ -119,7 +117,6 @@ fun DataForm(lectureName: String) {
             label = { Text("コメント") }
         )
         Button(
-//            modifier = Modifier.fillMaxHeight(1f),
             onClick = {
                 if (enrollmentYear != ""
                     && difficultyLevel != ""
@@ -142,7 +139,6 @@ fun DataForm(lectureName: String) {
             },
             modifier = Modifier
                 .align(Alignment.End) // ボタンを右に配置
-//                .fillMaxHeight()
         ) {
             Text("保存")
         }
