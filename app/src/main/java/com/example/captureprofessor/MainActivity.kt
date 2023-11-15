@@ -30,7 +30,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.captureprofessor.classes.card.ClassCard
 import com.example.captureprofessor.ui.ListOfClasses
-import com.example.captureprofessor.ui.ReviewActivity
 import com.example.captureprofessor.ui.theme.CaptureProfessorTheme
 import com.example.captureprofessor.ui.themeimport.PastExamCollection
 import com.websarba.wings.android.detailofactivity.DetailOfClassUI
@@ -103,7 +102,7 @@ fun Test(modifier: Modifier = Modifier) {
                     )
                 }
                 composable(route = NavigationDestination.ClassEvaluation.name) {
-                    ReviewActivity()
+                    ReviewActivity(focusedClass.name)
                 }
                 composable(route = NavigationDestination.PastExams.name) {
                     PastExamCollection()
