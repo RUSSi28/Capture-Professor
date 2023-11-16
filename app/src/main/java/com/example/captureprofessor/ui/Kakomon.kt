@@ -35,7 +35,6 @@ class PastExams(val subjectName:String, val array:Array<KakomonData> ) {
 // この二つをプロパティとして持つ
 // バーを押すと開く感じにする
 // 引数には名前+1要素が1過去問の配列
-//fun Sort() {}
 @Composable
 fun MainUI(){
     TopAppBar (
