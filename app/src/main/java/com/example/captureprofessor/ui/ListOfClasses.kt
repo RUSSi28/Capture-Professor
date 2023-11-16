@@ -30,14 +30,15 @@ fun ListOfClasses(
     modifier: Modifier = Modifier,
     onClassClicked: (ClassCard) -> Unit,
 ) {
-    var classList: MutableState<MutableList<ClassCard>> = remember { mutableStateOf(mutableListOf<ClassCard>()) }
+    var classList: MutableState<MutableList<ClassCard>> =
+        remember { mutableStateOf(mutableListOf<ClassCard>()) }
     classList.value = testLists
-    Column (
+    Column(
         modifier = modifier
             .padding(4.dp)
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-    ){
+    ) {
         classList.value.forEach {
             Spacer(modifier = modifier.padding(4.dp))
             ShowClasses(
@@ -53,7 +54,7 @@ fun ShowClasses(
     modifier: Modifier = Modifier,
     classCard: ClassCard //引数にとる値はクラスでまとめられるならできるだけまとめる
 ) {
-    Row (
+    Row(
         modifier = modifier
 //            .border(width = 0.5.dp, color = Color.Black)
             .fillMaxWidth()
@@ -64,7 +65,7 @@ fun ShowClasses(
                 color = Color(243, 243, 243, 255),
             ),
 
-    ){
+        ) {
         Text(
             text = classCard.id.toString(),
             modifier = modifier
@@ -72,66 +73,66 @@ fun ShowClasses(
                 .padding(16.dp),
         )
 
-        Column (
+        Column(
             modifier = Modifier.padding(start = 8.dp),
-        ){
+        ) {
             Text(
                 fontSize = 24.sp,
                 fontWeight = FontWeight.SemiBold,
                 text = classCard.name,
                 color = Color.Gray
-                )
+            )
             Text(
                 text = classCard.description,
                 color = Color.Gray
-                )
+            )
         }
 
         Spacer(modifier = modifier)
     }
 }
 
-val testLists : MutableList<ClassCard> =
+val testLists: MutableList<ClassCard> =
     mutableListOf(
         ClassCard(
-            id = 5241,
-            name = "sample",
-            description = "this is a sample"
+            id = "0030",
+            name = "微分積分Ⅰ及び演習",
+            description = "足立"
         ),
         ClassCard(
-            id = 6311,
-            name = "test",
-            description = "this is a test"
+            id = "0131",
+            name = "理系基礎演習",
+            description = "船瀬、白松、田中"
         ),
         ClassCard(
-            id = 5200,
-            name = "liner hoge",
-            description = "hoge hoge hoge hoge hoge"
+            id = "0061",
+            name = "力学",
+            description = "橋本"
         ),
         ClassCard(
-            id = 5200,
-            name = "liner hoge",
-            description = "hoge hoge hoge hoge hoge"
+            id = "0604",
+            name = "ディジタル回路",
+            description = "橋本"
         ),
         ClassCard(
-            id = 5200,
-            name = "liner hoge",
-            description = "hoge hoge hoge hoge hoge"
+            id = "5608",
+            name = "プログラミングⅠ",
+            description = "松尾"
         ),
         ClassCard(
-            id = 5200,
-            name = "liner hoge",
-            description = "hoge hoge hoge hoge hoge"
+            id = "5602",
+            name = "確率",
+            description = "中島"
         ),
         ClassCard(
-            id = 5200,
-            name = "liner hoge",
-            description = "hoge hoge hoge hoge hoge"
+            id = "5057",
+            name = "電磁気学",
+            description = "二ラウラ"
         ),
         ClassCard(
-            id = 5200,
-            name = "liner hoge",
-            description = "hoge hoge hoge hoge hoge"
+            id = "5611",
+            name = "情報数学Ⅰ",
+            description = "犬塚"
         )
     )
 
