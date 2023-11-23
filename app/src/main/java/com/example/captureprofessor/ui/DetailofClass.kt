@@ -11,7 +11,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
@@ -92,7 +94,7 @@ fun ClassDetailWithButton(
             Surface {
                 Button(
                     onClick = onClickPastExamButton, colors = ButtonDefaults.textButtonColors(
-                        backgroundColor = Color.Cyan
+                        backgroundColor = Color.White
                     ), modifier = Modifier.clip(RoundedCornerShape(30.dp))
                 ) {//ここにもNavigationの処理渡したいんだけど階層が深い
                     Text("過去問一覧")
@@ -106,10 +108,12 @@ fun ClassDetailWithButton(
 
             Button(
                 onClick = onClickEvaluationButton, colors = ButtonDefaults.textButtonColors(
-                    backgroundColor = Color.Green
-                ), modifier = Modifier.clip(RoundedCornerShape(30.dp))
+                    backgroundColor = Color.Blue
+                ),modifier = Modifier
+                    .width(120.dp)
+                    .height(50.dp)
             ) {
-                Text("${classCard.description}") //授業の評価(攻略のさぶとしたほうがよさそう)
+                Text("授業の評価",color=Color.White) //授業の評価(攻略のさぶとしたほうがよさそう)
             }
 
 
