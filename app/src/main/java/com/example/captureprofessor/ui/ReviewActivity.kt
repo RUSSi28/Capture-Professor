@@ -43,7 +43,6 @@ import com.google.firebase.firestore.firestore
 private const val TAG = "ReviewActivity"
 
 
-
 // 講座名を引数で渡してください
 @Composable
 fun ReviewActivity(
@@ -56,7 +55,6 @@ fun ReviewActivity(
     // ここで授業情報を格納する
     db.collection("lectures").document(LectureName)
         .set(lecture1)
-
 
 
     var selectedSortOption by remember { mutableStateOf("受講年度順") }
@@ -81,13 +79,13 @@ fun ReviewActivity(
                         difficultyLevel = difficultyLevel!!.toInt(),
                         comment = comment!!
                     )
-                    updatedReviews.add(reviewData)
+                    reviews.add(reviewData)
                 }
 
             }
 
             // こんな感じで代入しないと更新されない
-            reviews = updatedReviews
+//            reviews = updatedReviews
         }
 
 
@@ -135,7 +133,7 @@ fun ReviewActivity(
                 .fillMaxWidth()
                 .height(50.dp)
                 .padding(8.dp)
-            ) {
+        ) {
             Text(text = "レビューを追加")
         }
     }
@@ -168,7 +166,7 @@ fun displayReview(review: ReviewData) {
 
     Surface(
         modifier = Modifier
-            .padding(horizontal = 8.dp, vertical = 8.dp) ,
+            .padding(horizontal = 8.dp, vertical = 8.dp),
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(
