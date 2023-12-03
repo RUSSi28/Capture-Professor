@@ -35,7 +35,9 @@ import com.example.captureprofessor.ui.ListOfClasses
 import com.example.captureprofessor.ui.theme.CaptureProfessorTheme
 import com.example.captureprofessor.ui.themeimport.PastExamCollection
 import com.websarba.wings.android.detailofactivity.DetailOfClassUI
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val buttonScreenViewModel : ButtonScreenViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +69,7 @@ class MainActivity : ComponentActivity() {
                             )
                     ) {
 
-                        var focusedClass by remember { mutableStateOf<ClassCard>(ClassCard(0, "", "")) }
+                        var focusedClass by remember { mutableStateOf<ClassCard>(ClassCard("", "", "")) }
                         //ここの値を渡したいんだけど階層深すぎてかくのめんどくさいよね多分
 
                         NavHost(
