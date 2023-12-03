@@ -83,15 +83,10 @@ fun ReviewActivity(
                 }
 
             }
-
-            // こんな感じで代入しないと更新されない
-//            reviews = updatedReviews
         }
 
 
     // 画面に描画する
-
-
     Column(
         modifier = Modifier.fillMaxSize(),
     ) {
@@ -112,18 +107,6 @@ fun ReviewActivity(
                     }
                 }
             )
-
-//            DropdownMenu(sortViewModel = SortViewModel(),
-//                onSortOptionSelected = { option ->
-//                    selectedSortOption = option
-//                    reviews = when (option) {
-//                        "受講年度順" -> sortReviewByYear(initialReviews)
-//                        "面白さ順" -> sortReviewByInterest(initialReviews)
-//                        "難しさ順" -> sortReviewByDifficulty(initialReviews)
-//                        else -> initialReviews // デフォルトは元の順序
-//                    }
-//
-//                })
         }
         displayReviews(reviews = reviews)
 
@@ -147,15 +130,11 @@ fun displayReviews(reviews: MutableList<ReviewData>) {
     LazyColumn(
         modifier = Modifier
             .height(600.dp),
-//            .fillMaxSize(),
-//            .padding(horizontal = 16.dp),
     ) {
         Log.d(TAG, "displayReviews: ")
         // reviewsの要素をすべて描画する
         items(reviews) { review ->
-//            Spacer(modifier = Modifier.width(16.dp))
             displayReview(review = review)
-//            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
@@ -176,7 +155,6 @@ fun displayReview(review: ReviewData) {
                     color = Color(255, 255, 255, 255),
                     shape = RoundedCornerShape(8.dp)
                 )
-//                .padding(16.dp)
 
         ) {
             Row {
@@ -189,10 +167,8 @@ fun displayReview(review: ReviewData) {
                 )
             }
             Surface(
-//                color = MaterialTheme.colorScheme.primary, // テーマのプライマリカラーを使用
                 color = Color.LightGray,
                 shape = RoundedCornerShape(8.dp),
-//                modifier = Modifier.border(1.dp, Color.Black) // 枠線の太さと色を設定
             ) {
                 // 面白さ、難しさ、コメントのグループ
                 Column(
@@ -216,9 +192,7 @@ fun DropdownMenu(
     selectedSortOption: String,
     onSortOptionSelected: (String) -> Unit
 ) {
-//    val sortViewModel = SortViewModel()
     var expanded by remember { mutableStateOf(false) }
-//    var selectedSort = sortViewModel.selectedSort
 
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -255,54 +229,6 @@ fun DropdownMenu(
         }
     }
 }
-
-//@Composable
-//fun DropdownMenu(
-//    sortViewModel: SortViewModel,
-//    onSortOptionSelected: (String) -> Unit
-//) {
-////    val sortViewModel = SortViewModel()
-//    var expanded by remember { mutableStateOf(false) }
-//    var selectedSortOption = sortViewModel.selectedSortOption
-//
-//    Box(
-//        modifier = Modifier.fillMaxWidth(),
-//        contentAlignment = Alignment.TopEnd
-//    ) {
-//        Row {
-//            IconButton(onClick = { expanded = true }) {
-//                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = null)
-//            }
-//            Text(text = "$selectedSortOption", modifier = Modifier.padding(16.dp))
-//        }
-//        DropdownMenu(
-//            expanded = expanded,
-//            onDismissRequest = { expanded = false }
-//        ) {
-//            DropdownMenuItem(onClick = {
-//                onSortOptionSelected("受講年度順")
-//                selectedSortOption.value = "受講年度順"
-//                expanded = false
-//            }) {
-//                Text(text = "受講年度順")
-//            }
-//            DropdownMenuItem(onClick = {
-//                onSortOptionSelected("面白さ順")
-//                selectedSortOption.value = "面白さ順"
-//                expanded = false
-//            }) {
-//                Text(text = "面白さ順")
-//            }
-//            DropdownMenuItem(onClick = {
-//                onSortOptionSelected("難しさ順")
-//                selectedSortOption.value = "難しさ順"
-//                expanded = false
-//            }) {
-//                Text(text = "難しさ順")
-//            }
-//        }
-//    }
-//}
 
 @Composable
 fun ButtonCompose(

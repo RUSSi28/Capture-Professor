@@ -93,7 +93,6 @@ fun Bar(index: Int) {//配列にはアクセスできる
                         painter = painterResource(id = array[index].imageId),
                         contentDescription = "情報理論",
                         contentScale = ContentScale.Fit,
-//                       modifier = imageModifier
                     )
                 }
             }
