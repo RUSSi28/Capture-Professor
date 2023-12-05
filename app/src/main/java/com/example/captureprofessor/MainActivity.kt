@@ -24,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -37,7 +36,7 @@ import com.example.captureprofessor.ui.themeimport.PastExamCollection
 import com.websarba.wings.android.detailofactivity.DetailOfClassUI
 
 class MainActivity : ComponentActivity() {
-    private val buttonScreenViewModel : ButtonScreenViewModel by viewModels()
+    private val buttonScreenViewModel: ButtonScreenViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -67,7 +66,15 @@ class MainActivity : ComponentActivity() {
                             )
                     ) {
 
-                        var focusedClass by remember { mutableStateOf<ClassCard>(ClassCard(0, "", "")) }
+                        var focusedClass by remember {
+                            mutableStateOf<ClassCard>(
+                                ClassCard(
+                                    "",
+                                    "",
+                                    ""
+                                )
+                            )
+                        }
                         //ここの値を渡したいんだけど階層深すぎてかくのめんどくさいよね多分
 
                         NavHost(

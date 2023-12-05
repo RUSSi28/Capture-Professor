@@ -25,6 +25,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,31 +64,32 @@ fun ReviewActivity(
 
     // レビューを所得して、reviewsに格納する
     val docRef = db.collection(LectureName)
-    docRef.get()
-        .addOnSuccessListener { documents ->
-            for (document in documents) {
-                if (document.exists()) {
-                    val enrollmentYear = document.getLong("enrollmentYear")
-                    val date = document.getDate("date")
-                    val interestLevel = document.getLong("interestLevel")
-                    val difficultyLevel = document.getLong("difficultyLevel")
-                    val comment = document.getString("comment")
-                    val reviewData = ReviewData(
-                        enrollmentYear = enrollmentYear!!.toInt(),
-                        date = date,
-                        interestLevel = interestLevel!!.toInt(),
-                        difficultyLevel = difficultyLevel!!.toInt(),
-                        comment = comment!!
-                    )
-                    reviews.add(reviewData)
+    LaunchedEffect(Unit) {
+        docRef.get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    if (document.exists()) {
+                        val enrollmentYear = document.getLong("enrollmentYear")
+                        val date = document.getDate("date")
+                        val interestLevel = document.getLong("interestLevel")
+                        val difficultyLevel = document.getLong("difficultyLevel")
+                        val comment = document.getString("comment")
+                        val reviewData = ReviewData(
+                            enrollmentYear = enrollmentYear!!.toInt(),
+                            date = date,
+                            interestLevel = interestLevel!!.toInt(),
+                            difficultyLevel = difficultyLevel!!.toInt(),
+                            comment = comment!!
+                        )
+                        updatedReviews.add(reviewData)
+                    }
+
                 }
 
+                // こんな感じで代入しないと更新されない
+                reviews = updatedReviews
             }
-
-            // こんな感じで代入しないと更新されない
-//            reviews = updatedReviews
-        }
-
+    }
 
     // 画面に描画する
 
