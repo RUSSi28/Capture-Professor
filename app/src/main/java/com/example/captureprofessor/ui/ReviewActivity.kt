@@ -54,8 +54,8 @@ fun ReviewActivity(
     val db = Firebase.firestore
 
     // ここで授業情報を格納する
-    db.collection("lectures").document(LectureName)
-        .set(lecture1)
+//    db.collection("lectures").document(LectureName)
+//        .set(lecture1)
 
 
     var selectedSortOption by remember { mutableStateOf("受講年度順") }

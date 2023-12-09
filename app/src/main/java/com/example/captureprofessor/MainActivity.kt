@@ -24,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -70,19 +69,10 @@ class MainActivity : ComponentActivity() {
                             )
                     ) {
 
-//                        var focusedClass by remember {
-//                            mutableStateOf<ClassCard>(
-//                                ClassCard(
-//                                    "",
-//                                    "",
-//                                    ""
-//                                )
-//                            )
-//                        }
                         var focusedClass by remember {
                             mutableStateOf<ClassCard>(
                                 ClassCard(
-                                    0,
+                                    "",
                                     "",
                                     ""
                                 )
