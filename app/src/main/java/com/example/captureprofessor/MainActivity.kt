@@ -24,10 +24,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.captureprofessor.classes.card.ClassCard
+import com.example.captureprofessor.ui.AddClasses
 import com.example.captureprofessor.ui.ButtonScreenViewModel
 import com.example.captureprofessor.ui.DataForm
 import com.example.captureprofessor.ui.ListOfClasses
@@ -36,7 +38,7 @@ import com.example.captureprofessor.ui.themeimport.PastExamCollection
 import com.websarba.wings.android.detailofactivity.DetailOfClassUI
 
 class MainActivity : ComponentActivity() {
-    private val buttonScreenViewModel: ButtonScreenViewModel by viewModels()
+    private val buttonScreenViewModel : ButtonScreenViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -48,7 +50,9 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize(),
                     topBar = {
                         MyTopAppBar(
-                            onAddClicked = { },//ここにも追加画面の画面遷移を使用したい
+                            onAddClicked = {
+                                navController.navigate(route = NavigationDestination.AddReviewClass.name)
+                            },//ここにも追加画面の画面遷移を使用したい
                         )
                     }
                 ) { paddingValues ->
@@ -66,10 +70,19 @@ class MainActivity : ComponentActivity() {
                             )
                     ) {
 
+//                        var focusedClass by remember {
+//                            mutableStateOf<ClassCard>(
+//                                ClassCard(
+//                                    "",
+//                                    "",
+//                                    ""
+//                                )
+//                            )
+//                        }
                         var focusedClass by remember {
                             mutableStateOf<ClassCard>(
                                 ClassCard(
-                                    "",
+                                    0,
                                     "",
                                     ""
                                 )
@@ -117,6 +130,9 @@ class MainActivity : ComponentActivity() {
                             }
                             composable(route = NavigationDestination.PastExams.name) {
                                 PastExamCollection()
+                            }
+                            composable(route = NavigationDestination.AddReviewClass.name) {
+                                AddClasses()
                             }
                         }
                     }
