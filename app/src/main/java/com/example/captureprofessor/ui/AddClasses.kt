@@ -128,6 +128,7 @@ fun ShowChoiceClasses(
     modifier: Modifier = Modifier,
     classCard: ClassCard //引数にとる値はクラスでまとめられるならできるだけまとめる
 ) {
+    var isFavorite by remember { mutableStateOf(favoriteClassMap[classCard.id] ?: false) }
     Row(
         modifier = modifier
 //            .border(width = 0.5.dp, color = Color.Black)
@@ -141,8 +142,18 @@ fun ShowChoiceClasses(
 
         ) {
         Checkbox(
-            checked = false, // チェック状態（true: チェックあり、false: チェックなし）
-            onCheckedChange = { isChecked -> /* チェック状態が変更されたときの処理 */ },
+            checked = isFavorite,
+            onCheckedChange = { isChecked ->
+                if(isFavorite) {
+                    favoriteClassMap[classCard.id] = false
+                    isFavorite = false
+                }
+                else {
+                    favoriteClassMap[classCard.id] = true
+                    isFavorite = true
+                }
+
+            },
             modifier = modifier
                 .align(alignment = Alignment.CenterVertically)
                 .padding(8.dp),
@@ -172,3 +183,14 @@ fun ShowChoiceClasses(
         Spacer(modifier = modifier)
     }
 }
+
+var favoriteClassMap : MutableMap<String,Boolean> = mutableMapOf(
+    "0604" to true,
+    "5608" to false,
+    "0061" to false,
+    "0030" to false,
+    "5608" to false,
+    "5602" to false,
+    "5057" to false,
+    "5611" to false,
+)
