@@ -1,6 +1,5 @@
 package com.example.captureprofessor.ui
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -39,6 +38,58 @@ fun AddClasses(
 
     var lectureData by remember { mutableStateOf(mutableListOf<ClassCard>()) }
     var updatedLectureData by remember { mutableStateOf(mutableListOf<ClassCard>()) }
+
+//    lectureData =
+//        mutableListOf(
+//            ClassCard(
+//                id = "0030",
+//                name = "微分積分Ⅰ及び演習",
+//                description = "足立"
+//            ),
+//            ClassCard(
+//                id = "0131",
+//                name = "理系基礎演習",
+//                description = "船瀬、白松、田中"
+//            ),
+//            ClassCard(
+//                id = "0061",
+//                name = "力学",
+//                description = "橋本"
+//            ),
+//            ClassCard(
+//                id = "0604",
+//                name = "ディジタル回路",
+//                description = "橋本"
+//            ),
+//            ClassCard(
+//                id = "5608",
+//                name = "プログラミングⅠ",
+//                description = "松尾"
+//            ),
+//            ClassCard(
+//                id = "5602",
+//                name = "確率",
+//                description = "中島"
+//            ),
+//            ClassCard(
+//                id = "5057",
+//                name = "電磁気学",
+//                description = "二ラウラ"
+//            ),
+//            ClassCard(
+//                id = "5611",
+//                name = "情報数学Ⅰ",
+//                description = "犬塚"
+//            )
+//        )
+//
+//
+//    // ここで授業情報を格納する
+//    lectureData.forEach {
+//        db.collection("lectures").document(it.name)
+//            .set(it)
+//        Log.d(TAG, "AddClasses: " + it.name + " => " + it.description)
+//    }
 
     val docRef = db.collection("lectures")
     docRef.get()
