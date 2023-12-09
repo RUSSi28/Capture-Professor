@@ -24,21 +24,6 @@ data class LectureData(
 val dateFormat = SimpleDateFormat("yyyy-MM-dd")
 
 
-val review1 = ReviewData(
-    enrollmentYear = 2023,
-    date = Date(1646832000000), // 2022-03-08 12:00:00
-    interestLevel = 4,
-    difficultyLevel = 3,
-    comment = "授業は面白かったが、難しかった。"
-)
-
-val review2 = ReviewData(
-    enrollmentYear = 2023,
-    date = Date(1652284800000), // 2022-05-11 12:00:00
-    interestLevel = 5,
-    difficultyLevel = 2,
-    comment = "素晴らしい授業でした！"
-)
 // Reviewを大量に宣言（ChatGPT最強！！ChatGPT最強！！）
 val initialReviews = mutableListOf(
     ReviewData(
@@ -111,14 +96,4 @@ val initialReviews = mutableListOf(
         difficultyLevel = 4,
         comment = "内容は難しかったが、問題解決スキルが向上しました。"
     )
-)
-
-// 授業データの例
-val lecture1 = LectureData(
-    lectureName = "コンピュータサイエンス入門",
-    professorName = "山田太郎",
-    year = 2023,
-    semester = "春学期",
-    department = "情報学部",
-    reviews = initialReviews
 )
