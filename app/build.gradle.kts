@@ -77,6 +77,11 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-analytics")
 
+    implementation("com.google.firebase:firebase-storage-ktx")
+
+    //coil
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
     //Hiltについてはこの二つ
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")

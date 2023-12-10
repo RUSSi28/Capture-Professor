@@ -24,7 +24,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -33,6 +36,7 @@ import com.example.captureprofessor.ui.AddClasses
 import com.example.captureprofessor.ui.ButtonScreenViewModel
 import com.example.captureprofessor.ui.DataForm
 import com.example.captureprofessor.ui.ListOfClasses
+import com.example.captureprofessor.ui.UploadImage
 import com.example.captureprofessor.ui.theme.CaptureProfessorTheme
 import com.example.captureprofessor.ui.themeimport.PastExamCollection
 import com.websarba.wings.android.detailofactivity.DetailOfClassUI
@@ -51,8 +55,13 @@ class MainActivity : ComponentActivity() {
                     topBar = {
                         MyTopAppBar(
                             onAddClicked = {
-                                navController.navigate(route = NavigationDestination.AddReviewClass.name)
-                            },//ここにも追加画面の画面遷移を使用したい
+                                when(navController.currentDestination?.route){
+                                    NavigationDestination.ListOfClass.name ->
+                                        navController.navigate(route = NavigationDestination.AddReviewClass.name)
+                                    NavigationDestination.PastExams.name ->
+                                        navController.navigate(route = NavigationDestination.UploadImage.name)
+                                }
+                            },
                         )
                     }
                 ) { paddingValues ->
@@ -70,19 +79,10 @@ class MainActivity : ComponentActivity() {
                             )
                     ) {
 
-//                        var focusedClass by remember {
-//                            mutableStateOf<ClassCard>(
-//                                ClassCard(
-//                                    "",
-//                                    "",
-//                                    ""
-//                                )
-//                            )
-//                        }
                         var focusedClass by remember {
                             mutableStateOf<ClassCard>(
                                 ClassCard(
-                                    0,
+                                    "",
                                     "",
                                     ""
                                 )
@@ -129,10 +129,17 @@ class MainActivity : ComponentActivity() {
                                 DataForm(focusedClass.name)
                             }
                             composable(route = NavigationDestination.PastExams.name) {
-                                PastExamCollection()
+                                PastExamCollection(lectureName = focusedClass.name)
                             }
                             composable(route = NavigationDestination.AddReviewClass.name) {
                                 AddClasses()
+                            }
+                            composable(route = NavigationDestination.UploadImage.name) {
+                                 UploadImage(
+                                     lectureName = focusedClass.name,
+                                     context = LocalContext.current,
+                                     onResult = {}
+                                 )
                             }
                         }
                     }
@@ -148,7 +155,8 @@ enum class NavigationDestination {
     ClassEvaluation,
     PastExams,
     DetailOfClass,
-    AddReviewClass
+    AddReviewClass,
+    UploadImage
 }
 
 @Composable
@@ -156,6 +164,7 @@ fun MyTopAppBar(
     modifier: Modifier = Modifier,
     onAddClicked: () -> Unit,
 ) {
+
     TopAppBar(
         modifier = modifier,
         title = { Text(text = "Lectures") },
@@ -164,6 +173,7 @@ fun MyTopAppBar(
 
         },
         actions = {
+
             IconButton(onClick = onAddClicked) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "ADD")
             }

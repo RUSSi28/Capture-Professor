@@ -29,7 +29,7 @@ fun AddClasses() {
         Spacer(modifier = Modifier.padding(4.dp))
         ShowChoiceClasses(
             classCard = ClassCard(
-                id = 1,
+                id = "1",
                 name = "講義名",
                 description = "講義の説明"
             ),
