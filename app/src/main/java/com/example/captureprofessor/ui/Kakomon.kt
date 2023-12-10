@@ -27,6 +27,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import coil.compose.AsyncImage
 import com.example.captureprofessor.R
 
 class PastExams(val subjectName:String, val array:Array<KakomonData> ) {
@@ -70,30 +72,16 @@ fun Bar(index: Int) {//配列にはアクセスできる
                                 imageVector = if (isExpanded) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowRight,
                                 contentDescription = null,
                             )
-                            Text(
-                                text = array[index].teacherName+"先生",
-                                color = Color.White
-                            )
-                            Text(
-                                text = array[index].year.toString(),
-                                color = Color.White
-
-                            )
                         }
                         Spacer(modifier = Modifier.height(4.dp))
 
                     }
                 }
                 if (isExpanded) {
-                    Text(
-                        text = array[index].comment,
-                        modifier = Modifier.padding(all = 4.dp),
-                    )
-                    Image(
-                        painter = painterResource(id = array[index].imageId),
-                        contentDescription = "情報理論",
-                        contentScale = ContentScale.Fit,
-//                       modifier = imageModifier
+                    AsyncImage(
+                        model = array[index].imageUri.toUri(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit
                     )
                 }
             }
@@ -103,8 +91,5 @@ fun Bar(index: Int) {//配列にはアクセスできる
 
 
 data class KakomonData(
-    var teacherName:String="Noname",
-    var year:Int=2023,
-    var comment:String="aaaa",
-    var imageId:Int= R.drawable.tubaicon){
+    var imageUri: String = ""){
 }
