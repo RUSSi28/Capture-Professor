@@ -62,13 +62,13 @@ fun PastExamCollection(
         val storage = Firebase.storage
 
         // ここで授業情報を格納する
-        db.collection("lectures").document(lectureName)
-            .set(lecture1)
+//        db.collection("lectures").document(lectureName)
+//            .set(lecture1)
 
 
-        val array = remember { mutableStateListOf<KakomonData>() }
-        var reviews by remember { mutableStateOf(mutableListOf<ReviewData>()) }
-        var updatedReviews = mutableListOf<ReviewData>()
+//        val array = remember { mutableStateListOf<KakomonData>() }
+//        var reviews by remember { mutableStateOf(mutableListOf<ReviewData>()) }
+//        var updatedReviews = mutableListOf<ReviewData>()
 
 
         // レビューを所得して、reviewsに格納する
@@ -76,24 +76,24 @@ fun PastExamCollection(
         LaunchedEffect(Unit) {
             docRef.get()
                 .addOnSuccessListener { field ->
-
-                    // こんな感じで代入しないと更新されない
-                    reviews = updatedReviews
+                    //lectureNameドキュメントの中にあるフィールドの画像パスのリストを取得
                 }
         }
+
 //        val a = KakomonData("南角",2019,"過去問だけでなんとかなる", )
 //        val b = KakomonData("坂上",2023,"時間がない",R.drawable.ic_launcher_background)
 //        val c = KakomonData("南角",2023,"aaa", R.drawable.informationtheory)
 //        val d = KakomonData("南角",2023,"aaa", R.drawable.informationtheory)
 //        val e = KakomonData("南角",2023,"aaa", R.drawable.informationtheory)
 //        val f = KakomonData("坂上",2023,"時間がない",R.drawable.ic_launcher_background)
-        reviews.forEach{
-            array.add(
-                KakomonData(
-//                    it.uriList
-                )
-            )
-        }
+//        reviews.forEach{
+//            //if that class isAttend
+//            array.add(
+//                KakomonData(
+//
+//                )
+//            )
+//        }
 
 //        val subject1 = remember{ PastExams("$lectureName",array) }
 //        subject1.MainUI()
