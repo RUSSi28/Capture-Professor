@@ -77,7 +77,7 @@ fun Bar(index: Int) {//配列にはアクセスできる
 
                     }
                 }
-                if (isExpanded) {
+//                if (isExpanded) {
 //                    AsyncImage(
 //                        //この部分画像のpathからuriを取得してmodelに代入する必要がある
 ////                        model = array[index].imageUri.toUri(),
@@ -85,7 +85,7 @@ fun Bar(index: Int) {//配列にはアクセスできる
 //                        contentDescription = null,
 //                        contentScale = ContentScale.Fit
 //                    )
-                }
+//                }
             }
         }
 }

@@ -15,7 +15,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.captureprofessor.R
 import com.example.captureprofessor.sample.ReviewData
-import com.example.captureprofessor.sample.lecture1
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
