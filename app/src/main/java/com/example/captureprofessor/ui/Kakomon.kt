@@ -77,13 +77,15 @@ fun Bar(index: Int) {//配列にはアクセスできる
 
                     }
                 }
-                if (isExpanded) {
-                    AsyncImage(
-                        model = array[index].imageUri.toUri(),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit
-                    )
-                }
+//                if (isExpanded) {
+//                    AsyncImage(
+//                        //この部分画像のpathからuriを取得してmodelに代入する必要がある
+////                        model = array[index].imageUri.toUri(),
+//                        model = ,
+//                        contentDescription = null,
+//                        contentScale = ContentScale.Fit
+//                    )
+//                }
             }
         }
 }
@@ -91,5 +93,5 @@ fun Bar(index: Int) {//配列にはアクセスできる
 
 
 data class KakomonData(
-    var imageUri: String = ""){
+    var imagePath: String = ""){
 }
