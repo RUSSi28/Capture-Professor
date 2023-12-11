@@ -36,7 +36,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.captureprofessor.sample.ReviewData
 import com.example.captureprofessor.sample.dateFormat
-import com.example.captureprofessor.sample.lecture1
 import com.example.captureprofessor.ui.ButtonScreenViewModel
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
@@ -54,8 +53,8 @@ fun ReviewActivity(
     val db = Firebase.firestore
 
     // ここで授業情報を格納する
-    db.collection("lectures").document(LectureName)
-        .set(lecture1)
+//    db.collection("lectures").document(LectureName)
+//        .set(lecture1)
 
 
     var selectedSortOption by remember { mutableStateOf("受講年度順") }
