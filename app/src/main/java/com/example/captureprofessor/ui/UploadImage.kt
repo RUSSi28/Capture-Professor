@@ -94,11 +94,9 @@ fun UploadImage(
 
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
-//            if (uri == null) return@rememberLauncherForActivityResult
-            if (uri != null) {
-                imageUri = uri
-                onResult(uri)
-            }
+            if (uri == null) return@rememberLauncherForActivityResult
+            imageUri = uri
+            onResult(uri)
 
         }
 

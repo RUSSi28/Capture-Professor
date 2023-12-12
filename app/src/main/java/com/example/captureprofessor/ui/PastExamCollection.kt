@@ -6,14 +6,17 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import coil.compose.AsyncImage
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
@@ -63,6 +66,8 @@ fun PastExamCollection(
 
 
         var path by remember { mutableStateOf(mutableListOf<String>()) }
+        var uriList by remember { mutableStateOf(mutableListOf<Uri>()) }
+        var bool by remember { mutableStateOf(false) }
 
         // ここで授業情報を格納する
 //        db.collection("lectures").document(lectureName)
@@ -77,25 +82,42 @@ fun PastExamCollection(
         // レビューを所得して、reviewsに格納する
         val docRef = db.collection("lectures").document(lectureName)
         LaunchedEffect(Unit) {
-            docRef.get()
-                .addOnSuccessListener { field ->
-                    //lectureNameドキュメントの中にあるフィールドの画像パスのリストを取得
-                    path = field.get("imagePath") as MutableList<String>
-
-                }
-
-
-            // pathの各要素に対してgetImageUriFromFirebaseを呼び出す
-            coroutinescope.launch {
-                withContext(Dispatchers.IO) {
-//                        addPastExamCollection(lectureName, "pass2")
-                    for (imagePath in path) {
-                        var uri = getImageUriFromFirebase(storage, imagePath)
-                        //画像を表示
+            withContext(Dispatchers.IO) {
+                docRef.get()
+                    .addOnSuccessListener { field ->
+                        //lectureNameドキュメントの中にあるフィールドの画像パスのリストを取得
+                        path = field.get("imagePath") as MutableList<String>
 
                     }
+                Log.d("Before Getting Uri", "$path")
+            }
+        }
+        LaunchedEffect(path.size != 0) {
+            for (imagePath in path) {
+                val uri = getImageUriFromFirebase(storage, imagePath)
+                Log.d("UriFromPath", "$uri")
+                //画像のURIのリストに追加
+                uriList.add(uri)
+                Log.d("uriList", "$uriList")
+                bool = true
+            }
+        }
+        Button(onClick = { Log.d("check", "$path") }) {
+
+        }
+        if (bool) {
+            Column {
+                for (uri in uriList) {
+                    Log.d("checkUri", "$uri")
+                    AsyncImage(model = uri, contentDescription = null)
                 }
             }
+
+//            for (uri in uriList) {
+//                Log.d("checkUri", "$uri")
+//                AsyncImage(model = uri, contentDescription = null)
+//            }
+
         }
 
 
