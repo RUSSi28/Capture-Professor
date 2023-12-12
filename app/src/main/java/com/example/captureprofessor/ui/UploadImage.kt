@@ -36,6 +36,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.Dispatchers
@@ -61,6 +63,16 @@ fun uploadImageToFirebase(
         .addOnFailureListener { }
 
     return "$lectureName/$fileName.jpg"
+}
+
+// firestoreに画像のパスを追加
+fun addPastExamImagePass(
+    lectureName: String,
+    imagePath: String
+) {
+    val db = Firebase.firestore
+    db.collection("lectures").document(lectureName)
+        .update("imagePath", FieldValue.arrayUnion(imagePath))
 }
 
 
