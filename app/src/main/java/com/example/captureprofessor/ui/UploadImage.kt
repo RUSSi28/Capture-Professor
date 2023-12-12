@@ -66,7 +66,7 @@ fun uploadImageToFirebase(
 }
 
 // firestoreに画像のパスを追加
-fun addPastExamImagePass(
+fun addPastExamImagePath(
     lectureName: String,
     imagePath: String
 ) {
@@ -159,11 +159,12 @@ fun UploadImage(
                 enabled = imageUri != Uri.EMPTY,
                 onClick = {
                     if (imageUri != null) {
-                        uploadImageToFirebase(
+                        val imagePath = uploadImageToFirebase(
                             imageUri = imageUri!!,
                             lectureName = lectureName,
                             firebaseStorage = storage
                         )
+                        addPastExamImagePath(lectureName = lectureName, imagePath = imagePath)
                     }
                     imageUri = null
                 },
