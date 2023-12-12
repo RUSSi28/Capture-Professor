@@ -35,6 +35,9 @@ import com.example.captureprofessor.classes.card.ClassCard
 import com.example.captureprofessor.ui.AddClasses
 import com.example.captureprofessor.ui.ButtonScreenViewModel
 import com.example.captureprofessor.ui.DataForm
+import com.example.captureprofessor.ui.GradeDao
+import com.example.captureprofessor.ui.GradeDatabase
+import com.example.captureprofessor.ui.GradeViewModel
 import com.example.captureprofessor.ui.ListOfClasses
 import com.example.captureprofessor.ui.UploadImage
 import com.example.captureprofessor.ui.theme.CaptureProfessorTheme
@@ -43,6 +46,7 @@ import com.websarba.wings.android.detailofactivity.DetailOfClassUI
 
 class MainActivity : ComponentActivity() {
     private val buttonScreenViewModel : ButtonScreenViewModel by viewModels()
+    private val gradeViewModel: GradeViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -89,7 +93,8 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         //ここの値を渡したいんだけど階層深すぎてかくのめんどくさいよね多分
-
+                        val db= GradeDatabase.getDatabase(applicationContext)
+                        val gradeDao=db.gradeDao()
                         NavHost(
                             navController = navController,
                             startDestination = NavigationDestination.ListOfClass.name
@@ -113,7 +118,9 @@ class MainActivity : ComponentActivity() {
                                         navController.navigate(route = NavigationDestination.PastExams.name)
                                     },
                                     onNavigateBack = { navController.popBackStack() },
-                                    classCard = focusedClass
+                                    classCard = focusedClass,
+                                    gradeviewmodel = gradeViewModel,
+                                    gradeDao=gradeDao
                                 )
                             }
                             composable(route = NavigationDestination.ClassEvaluation.name) {
@@ -142,7 +149,7 @@ class MainActivity : ComponentActivity() {
                                  )
                             }
                             composable(route = NavigationDestination.AddClasses.name) {
-                                AddClasses()
+                                AddClasses(modifier=Modifier,gradeDao)
                             }
                         }
                     }
