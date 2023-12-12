@@ -57,7 +57,7 @@ class MainActivity : ComponentActivity() {
                             onAddClicked = {
                                 when(navController.currentDestination?.route){
                                     NavigationDestination.ListOfClass.name ->
-                                        navController.navigate(route = NavigationDestination.AddReviewClass.name)
+                                        navController.navigate(route = NavigationDestination.AddClasses.name)
                                     NavigationDestination.PastExams.name ->
                                         navController.navigate(route = NavigationDestination.UploadImage.name)
                                 }
@@ -131,15 +131,18 @@ class MainActivity : ComponentActivity() {
                             composable(route = NavigationDestination.PastExams.name) {
                                 PastExamCollection(lectureName = focusedClass.name)
                             }
-                            composable(route = NavigationDestination.AddReviewClass.name) {
-                                AddClasses()
-                            }
+//                            composable(route = NavigationDestination.AddReviewClass.name) {
+//                                AddClasses()
+//                            }
                             composable(route = NavigationDestination.UploadImage.name) {
                                  UploadImage(
                                      lectureName = focusedClass.name,
                                      context = LocalContext.current,
                                      onResult = {}
                                  )
+                            }
+                            composable(route = NavigationDestination.AddClasses.name) {
+                                AddClasses()
                             }
                         }
                     }
@@ -156,6 +159,7 @@ enum class NavigationDestination {
     PastExams,
     DetailOfClass,
     AddReviewClass,
+    AddClasses,
     UploadImage
 }
 

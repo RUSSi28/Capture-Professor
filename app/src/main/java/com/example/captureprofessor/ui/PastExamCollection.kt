@@ -14,7 +14,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.captureprofessor.ui.getPastExamImagePass
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.FirebaseStorage
@@ -46,7 +45,6 @@ suspend fun getImageUriFromFirebase(
     }
     return uri
 }
-
 
 //画像のアップロード機能の追加をする必要がある
 @Composable
@@ -91,7 +89,6 @@ fun PastExamCollection(
             coroutinescope.launch {
                 withContext(Dispatchers.IO) {
 //                        addPastExamCollection(lectureName, "pass2")
-                    getPastExamImagePass(lectureName)
                     for (imagePath in path) {
                         var uri = getImageUriFromFirebase(storage, imagePath)
                         //画像を表示
