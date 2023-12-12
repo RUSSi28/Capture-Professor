@@ -16,16 +16,24 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.core.text.isDigitsOnly
+import com.example.captureprofessor.classes.card.ClassCard
+import com.example.captureprofessor.classes.card.ClassCardWithImage
 import com.example.captureprofessor.sample.ReviewData
 import com.example.captureprofessor.sample.dateFormat
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDateTime
 
 
@@ -43,7 +51,8 @@ fun DataForm(lectureName: String) {
     val db = Firebase.firestore
 
     Column(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .padding(16.dp)
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
@@ -135,6 +144,14 @@ fun DataForm(lectureName: String) {
                     )
                     // ここでレビューを追加する
                     db.collection(lectureName).add(reviewData)
+
+                    // reviewを初期化
+                    enrollmentYear = ""
+                    difficultyLevel = ""
+                    interestLevel = ""
+                    comment = ""
+
+                    Log.d(TAG, "DataForm: " + reviewData.toString())
                 }
             },
             modifier = Modifier

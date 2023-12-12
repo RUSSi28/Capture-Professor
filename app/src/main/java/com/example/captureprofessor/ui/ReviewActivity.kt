@@ -34,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.captureprofessor.classes.card.ClassCard
 import com.example.captureprofessor.sample.ReviewData
 import com.example.captureprofessor.sample.dateFormat
 import com.example.captureprofessor.ui.ButtonScreenViewModel
@@ -55,6 +56,27 @@ fun ReviewActivity(
     // ここで授業情報を格納する
 //    db.collection("lectures").document(LectureName)
 //        .set(lecture1)
+
+    val data = ClassCard(
+        id = "0064",
+        name = "test",
+        description = "description"
+    )
+
+    // ここで画像のパスを追加する
+//    val db = Firebase.firestore
+    db.collection("aaa").document("aaa")
+        .set(data)
+        .addOnSuccessListener {
+            Log.d("AddClasses", "DocumentSnapshot successfully written!")
+//            Log.d(com.example.captureprofessor.ui.TAG, "addPastExamCollection: "    + lectureName + " => " + "pass")
+        }
+        .addOnFailureListener { e ->
+            Log.w("AddClasses", "Error writing document", e)
+        }
+//    Log.d(com.example.captureprofessor.ui.TAG, "addPastExamCollection: "    + lectureName + " => " + "pass")
+
+
 
 
     var selectedSortOption by remember { mutableStateOf("受講年度順") }
