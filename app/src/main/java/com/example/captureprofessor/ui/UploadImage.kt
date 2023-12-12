@@ -82,9 +82,12 @@ fun UploadImage(
 
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent()) { uri ->
-            if (uri == null) return@rememberLauncherForActivityResult
-            imageUri = uri
-            onResult(uri)
+//            if (uri == null) return@rememberLauncherForActivityResult
+            if (uri != null) {
+                imageUri = uri
+                onResult(uri)
+            }
+
         }
 
     LazyColumn(
@@ -143,7 +146,7 @@ fun UploadImage(
                     .fillMaxWidth(),
                 enabled = imageUri != Uri.EMPTY,
                 onClick = {
-                    if(imageUri != null) {
+                    if (imageUri != null) {
                         uploadImageToFirebase(
                             imageUri = imageUri!!,
                             lectureName = lectureName,

@@ -35,11 +35,12 @@ private val LightColorScheme = lightColors(
 
 @Composable
 fun CaptureProfessorTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
-        DarkColorScheme
-    } else {
-        LightColorScheme
-    }
+//    val colors = if (darkTheme) {
+//        DarkColorScheme
+//    } else {
+//        LightColorScheme
+//    }
+    val colors = LightColorScheme
 
     MaterialTheme(
         colors = colors,
