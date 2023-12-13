@@ -115,6 +115,7 @@ fun PastExamCollection(
         }
 
 
+
 //        val a = KakomonData("南角",2019,"過去問だけでなんとかなる", )
 //        val b = KakomonData("坂上",2023,"時間がない",R.drawable.ic_launcher_background)
 //        val c = KakomonData("南角",2023,"aaa", R.drawable.informationtheory)

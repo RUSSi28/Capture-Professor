@@ -119,12 +119,12 @@ fun ClassDetailWithButton(
 
             Button(
                 onClick = onClickEvaluationButton, colors = ButtonDefaults.textButtonColors(
-                    backgroundColor = Color.Blue
+                    backgroundColor = Color(243,243,243,255)
                 ), modifier = Modifier
                     .width(120.dp)
                     .height(50.dp)
             ) {
-                Text("授業の評価", color = Color.White) //授業の評価(攻略のさぶとしたほうがよさそう)
+                Text("授業の評価", color = Color.DarkGray) //授業の評価(攻略のさぶとしたほうがよさそう)
             }
 
         }
@@ -143,10 +143,10 @@ fun ClassDetailWithButton(
                         }
                     }
                 }, colors = ButtonDefaults.textButtonColors(
-                    backgroundColor =Color.Green
+                    backgroundColor =Color(243,243,243,255)
                 )
             ) {
-                Text(text = "保存", color = Color.Black)
+                Text(text = "保存", color = Color.DarkGray)
             }
 
 
