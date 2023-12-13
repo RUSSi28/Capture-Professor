@@ -163,7 +163,7 @@ fun ClassDetailWithButton(
                         }
                     }
                 }, colors = ButtonDefaults.textButtonColors(
-                    backgroundColor = Color.LightGray
+                    backgroundColor =Color.Green
                 )
             ) {
                 Text(text = "保存", color = Color.Black)
@@ -178,7 +178,7 @@ fun ClassDetailWithButton(
                 modifier = Modifier
                     .fillMaxWidth(),
                 placeholder = { Text("成績評価の方法を入力してください", fontWeight = FontWeight.Bold) },
-                colors=TextFieldDefaults.textFieldColors(backgroundColor = Color.White))
+                colors=TextFieldDefaults.textFieldColors(backgroundColor= Color.LightGray))
         }
         Column {
             Text("テスト点数(目標)")
@@ -187,7 +187,7 @@ fun ClassDetailWithButton(
                 placeholder = { Text(text = "85") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
-                colors=TextFieldDefaults.textFieldColors(backgroundColor=Color.Cyan))
+                colors=TextFieldDefaults.textFieldColors(backgroundColor=Color.LightGray))
             Spacer(modifier = Modifier.padding(8.dp))
             Text("テスト点数(結果)")
             TextField(value = gradeviewmodel.result.toString(),
@@ -195,13 +195,11 @@ fun ClassDetailWithButton(
                 placeholder = { Text(text = "90") },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 singleLine = true,
-                colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.Cyan)
+                colors = TextFieldDefaults.textFieldColors(backgroundColor = Color.LightGray)
                 )
         }
 
-        Spacer(modifier = Modifier
-            .padding(64.dp)
-            .fillMaxSize())
+        Spacer(modifier = Modifier.padding(64.dp))
         //授業一覧ページへ飛ぶボタン
         Button(onClick = onNavigateBack) {
             Text("授業一覧へ戻る")
