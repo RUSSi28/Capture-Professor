@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,12 +28,14 @@ import androidx.compose.ui.unit.sp
 import com.example.captureprofessor.classes.card.ClassCard
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.launch
 
 private val TAG = "AddClasses"
 
 @Composable
 fun AddClasses(
     modifier: Modifier = Modifier,
+    gradeDao:GradeDao
 ) {
     val db = Firebase.firestore
 
@@ -117,7 +120,8 @@ fun AddClasses(
         lectureData.forEach { classCard ->
             ShowChoiceClasses(
                 classCard = classCard,
-                modifier = Modifier
+                modifier = Modifier,
+                gradeDao = gradeDao
             )
         }
     }
@@ -126,9 +130,11 @@ fun AddClasses(
 @Composable
 fun ShowChoiceClasses(
     modifier: Modifier = Modifier,
-    classCard: ClassCard //引数にとる値はクラスでまとめられるならできるだけまとめる
+    classCard: ClassCard,//引数にとる値はクラスでまとめられるならできるだけまとめる
+    gradeDao:GradeDao
 ) {
     var isFavorite by remember { mutableStateOf(favoriteClassMap[classCard.id] ?: false) }
+    var coroutineScope= rememberCoroutineScope()
     Row(
         modifier = modifier
 //            .border(width = 0.5.dp, color = Color.Black)
@@ -142,14 +148,20 @@ fun ShowChoiceClasses(
 
         ) {
         Checkbox(
+
             checked = isFavorite,
-            onCheckedChange = { isChecked ->
+            onCheckedChange = {
                 if(isFavorite) {
-                    favoriteClassMap[classCard.id] = false
+                    //ここでdeleteする
+                    gradeDao.deleteAll(Grade(classCard.id,classCard.name,"",0,0))
                     isFavorite = false
                 }
                 else {
-                    favoriteClassMap[classCard.id] = true
+                    //ここでinsertする
+                    val grade=Grade(classCard.id,classCard.name,"",0,0)
+                    coroutineScope.launch {
+                        gradeDao.insertAll(grade)
+                    }
                     isFavorite = true
                 }
 
