@@ -26,6 +26,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.captureprofessor.classes.card.ClassCard
+import com.example.captureprofessor.data.Grade
+import com.example.captureprofessor.data.GradeDao
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
@@ -35,7 +37,7 @@ private val TAG = "AddClasses"
 @Composable
 fun AddClasses(
     modifier: Modifier = Modifier,
-    gradeDao:GradeDao
+    gradeDao: GradeDao
 ) {
     val db = Firebase.firestore
 
@@ -131,7 +133,7 @@ fun AddClasses(
 fun ShowChoiceClasses(
     modifier: Modifier = Modifier,
     classCard: ClassCard,//引数にとる値はクラスでまとめられるならできるだけまとめる
-    gradeDao:GradeDao
+    gradeDao: GradeDao
 ) {
     var isFavorite by remember { mutableStateOf(favoriteClassMap[classCard.id] ?: false) }
     var coroutineScope= rememberCoroutineScope()
@@ -158,7 +160,7 @@ fun ShowChoiceClasses(
                 }
                 else {
                     //ここでinsertする
-                    val grade=Grade(classCard.id,classCard.name,"",0,0)
+                    val grade= Grade(classCard.id,classCard.name,"",0,0)
                     coroutineScope.launch {
                         gradeDao.insertAll(grade)
                     }

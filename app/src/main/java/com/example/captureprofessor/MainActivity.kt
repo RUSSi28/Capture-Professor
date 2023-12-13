@@ -25,9 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -35,8 +32,7 @@ import com.example.captureprofessor.classes.card.ClassCard
 import com.example.captureprofessor.ui.AddClasses
 import com.example.captureprofessor.ui.ButtonScreenViewModel
 import com.example.captureprofessor.ui.DataForm
-import com.example.captureprofessor.ui.GradeDao
-import com.example.captureprofessor.ui.GradeDatabase
+import com.example.captureprofessor.data.GradeDatabase
 import com.example.captureprofessor.ui.GradeViewModel
 import com.example.captureprofessor.ui.ListOfClasses
 import com.example.captureprofessor.ui.UploadImage

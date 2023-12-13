@@ -98,7 +98,7 @@ fun PastExamCollection(
                 Log.d("UriFromPath", "$uri")
                 //画像のURIのリストに追加
                 uriList.add(uri)
-                Log.d("uriList", "$uriList")
+
                 bool = true
             }
         }
@@ -106,17 +106,11 @@ fun PastExamCollection(
 
         }
         if (bool) {
-            Column {
-                for (uri in uriList) {
-                    Log.d("checkUri", "$uri")
-                    AsyncImage(model = uri, contentDescription = null)
-                }
+            Log.d("uriList", "$uriList")
+            for (uri in uriList) {
+                Log.d("checkUri", "$uri")
+                AsyncImage(model = uri, contentDescription = null)
             }
-
-//            for (uri in uriList) {
-//                Log.d("checkUri", "$uri")
-//                AsyncImage(model = uri, contentDescription = null)
-//            }
 
         }
 
